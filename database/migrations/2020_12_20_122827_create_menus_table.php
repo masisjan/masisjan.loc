@@ -21,10 +21,10 @@ class CreateMenusTable extends Migration
             $table->string('text')->nullable();
             $table->string('href');
             $table->string('count')->default('0');
-            $table->unsignedBigInteger('category_id')->nullable();
+            $table->string('category_id');
             $table->timestamps();
 
-            $table->foreign('category_id')->references('id')->on('menus');
+//            $table->foreign('category_id')->references('id')->on('menus');
         });
     }
 

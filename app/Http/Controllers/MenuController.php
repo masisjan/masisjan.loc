@@ -4,21 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 
 class MenuController extends Controller
 {
     public function index()
     {
+        $parentCategories = Menu::where('category_id',0)->get();
         $menus = Menu::latest()->paginate(10);
-        return view('admins.menus.index', compact('menus'));
+        return view('admins.menus.index', compact('menus', 'parentCategories'));
     }
 
     public function create()
     {
-        $menus = Menu::orderBy('name')->get();
         $menu = new Menu();
-        return view('admins.menus.create', compact('menu','menus'));
+        return view('admins.menus.create', compact('menu'));
     }
 
     public function update($id, Request $request)
@@ -42,13 +43,17 @@ class MenuController extends Controller
             $image_new_name = $menu->image;
         }
 
+        if($request->category_id == null){
+            $category_id = 0;
+        }
+
         $form_data = array(
             'title'                  =>  $request->title,
             'image'                  =>  $image_new_name,
             'icon'                   =>  $request->icon,
             'text'                   =>  $request->text,
             'href'                   =>  $request->href,
-            'parent_id'              =>  $request->parent_id,
+            'category_id'            =>  $category_id,
         );
 
         $menu->update($form_data);
@@ -77,13 +82,17 @@ class MenuController extends Controller
             $image_path = $request->file('image')->storeAs('uploads/image/admin/menu', $image_new_name, 'public');
         }
 
+        if($request->category_id == null){
+            $category_id = 0;
+        }
+
         $form_data = array(
             'title'                  =>  $request->title,
             'image'                  =>  $image_new_name,
             'icon'                   =>  $request->icon,
             'text'                   =>  $request->text,
             'href'                   =>  $request->href,
-            'parent_id'              =>  $request->parent_id,
+            'category_id'            =>  $category_id,
         );
 
         Menu::create($form_data);

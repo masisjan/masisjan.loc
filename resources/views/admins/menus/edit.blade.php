@@ -2,7 +2,7 @@
 @section('title', 'Contact App | Add new contact')
 @section('content')
 
-    <div class="bg_k2 text_houm_fri center">
+    <div class="bg_k2 text_houm_tu center">
         <p>Update Menu</p>
     </div>
     <div><br>

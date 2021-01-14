@@ -39,15 +39,15 @@
         @enderror
     </div>
 
-        <div class="input-container">
-            <p>Ընտրել ենթաբաժինը</p>
-            <input type="text" name="parent_id" value="{{ old('parent_id', $menu->parent_id) }}" id="parent_id" class="form-control @error('parent_id') is-invalid @enderror">
-            @error('parent_id')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-            @enderror
-        </div>
+{{--        <div class="input-container">--}}
+{{--            <p>Ընտրել ենթաբաժինը</p>--}}
+{{--            <input type="text" name="category_id" value="{{ old('parent_id', $menu->parent_id) }}" id="parent_id" class="form-control @error('parent_id') is-invalid @enderror">--}}
+{{--            @error('parent_id')--}}
+{{--            <div class="invalid-feedback">--}}
+{{--                {{ $message }}--}}
+{{--            </div>--}}
+{{--            @enderror--}}
+{{--        </div>--}}
 
     </div>
 

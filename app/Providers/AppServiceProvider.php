@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
-//        View::share('words', Word::all());
-//        View::share('money', Money::latest()->first());
+        View::share('words', Word::all());
+        View::share('money', Money::latest()->first());
     }
 }

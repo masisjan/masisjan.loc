@@ -45,5 +45,13 @@
                 </table>
                 {{ $menus->links() }}
             </div>
+            @foreach($parentCategories as $taxonomy)
+                <ul>
+                    <li><a href="">{{$taxonomy->title}}</a></li>
+                    @if(count($taxonomy->subcategory))
+                        @include('admins.menus.child_menu',['subcategories' => $taxonomy->subcategory])
+                    @endif
+                </ul>
+            @endforeach
 
 @endsection
