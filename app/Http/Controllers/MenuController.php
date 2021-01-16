@@ -11,15 +11,15 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $parentCategories = Menu::where('category_id',0)->get();
         $menus = Menu::latest()->paginate(10);
-        return view('admins.menus.index', compact('menus', 'parentCategories'));
+        return view('users.menus.index', compact('menus'));
     }
 
     public function create()
     {
         $menu = new Menu();
-        return view('admins.menus.create', compact('menu'));
+        $parentCategories = Menu::where('category_id',0)->get();
+        return view('users.menus.create', compact('menu', 'parentCategories'));
     }
 
     public function update($id, Request $request)
@@ -34,17 +34,19 @@ class MenuController extends Controller
 
         $image_new_name = "";
         if ($request->file('image')) {
-            Storage::disk('public')->delete('uploads/image/admin/menu' . '/' . $menu->image);
+            Storage::disk('public')->delete('uploads/image/user/menu' . '/' . $menu->image);
             $image_new_name = date('Y-m-d-H-i-s') . '.' . $request->file('image')->getClientOriginalExtension();
-            $image_path = $request->file('image')->storeAs('uploads/image/admin/menu', $image_new_name, 'public');
+            $image_path = $request->file('image')->storeAs('uploads/image/user/menu', $image_new_name, 'public');
         }
 
         if (!$request->file('image')) {
             $image_new_name = $menu->image;
         }
 
-        if($request->category_id == null){
-            $category_id = 0;
+        if(is_numeric($request->category_id)){
+            $category_id = $request->category_id;
+        }else{
+            $category_id = $menu->category_id;
         }
 
         $form_data = array(
@@ -57,13 +59,16 @@ class MenuController extends Controller
         );
 
         $menu->update($form_data);
-        return redirect()->route('admins.menus.index')->with('message', "Contact has been updated successfully");
+        return redirect()->route('users.menus.index')->with('message', "Contact has been updated successfully");
     }
 
     public function edit($id)
     {
         $menu = Menu::findOrFail($id);
-        return view('admins.menus.edit', compact('menu'));
+        $cat_id = $menu->category_id;
+        $parent_cat = Menu::where('id', $cat_id)->first();
+        $parentCategories = Menu::where('category_id',0)->get();
+        return view('users.menus.edit', compact('menu', 'parentCategories', 'parent_cat'));
     }
 
     public function store(Request $request)
@@ -79,11 +84,13 @@ class MenuController extends Controller
         $image_path = "";
         if ($request->file('image')) {
             $image_new_name = date('Y-m-d-H-i-s') . '.' . $request->file('image')->getClientOriginalExtension();
-            $image_path = $request->file('image')->storeAs('uploads/image/admin/menu', $image_new_name, 'public');
+            $image_path = $request->file('image')->storeAs('uploads/image/user/menu', $image_new_name, 'public');
         }
 
-        if($request->category_id == null){
+        if($request->category_id === null){
             $category_id = 0;
+        }else{
+            $category_id = $request->category_id;
         }
 
         $form_data = array(
@@ -97,21 +104,23 @@ class MenuController extends Controller
 
         Menu::create($form_data);
 
-        return redirect()->route('admins.menus.index', compact('image_path','image_new_name'))
+        return redirect()->route('users.menus.index', compact('image_path','image_new_name'))
             ->with('message', "Contact has been updated successfully");
     }
 
     public function show($id)
     {
         $menu = Menu::findOrFail($id);
-        return view('admins.menus.show', compact('menu'));
+        $cat_id = $menu->category_id;
+        $parent_cat = Menu::where('id', $cat_id)->first();
+        return view('users.menus.show', compact('menu', 'parent_cat'));
     }
 
     public function destroy($id)
     {
         $menu = Menu::findOrFail($id);
-        Storage::disk('public')->delete('uploads/image/admin/menu/' . $menu->image);
+        Storage::disk('public')->delete('uploads/image/user/menu/' . $menu->image);
         $menu = Menu::findOrFail($id)->delete();
-        return redirect()->route('admins.menus.index')->with('message', "Contact has been deleted successfully");
+        return redirect()->route('users.menus.index')->with('message', "Contact has been deleted successfully");
     }
 }

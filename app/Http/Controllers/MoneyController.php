@@ -10,13 +10,13 @@ class MoneyController extends Controller
     public function index()
     {
         $money = Money::all();
-        return view('admins.money.index', compact('money'));
+        return view('users.money.index', compact('money'));
     }
 
     public function create()
     {
         $money = new Money();
-        return view('admins.money.create', compact('money'));
+        return view('users.money.create', compact('money'));
     }
 
     public function update($id, Request $request)
@@ -31,13 +31,13 @@ class MoneyController extends Controller
 
         $data = $request->all();
         $money->update($data);
-        return redirect()->route('admins.money.index')->with('message', "Contact has been updated successfully");
+        return redirect()->route('users.money.index')->with('message', "Contact has been updated successfully");
     }
 
     public function edit($id)
     {
         $money = Money::findOrFail($id);
-        return view('admins.money.edit', compact('money'));
+        return view('users.money.edit', compact('money'));
     }
 
     public function store(Request $request)
@@ -53,13 +53,13 @@ class MoneyController extends Controller
 //        dd($request);
         Money::create($data);
 
-        return redirect()->route('admins.money.index', compact('data'))
+        return redirect()->route('users.money.index', compact('data'))
             ->with('message', "Contact has been updated successfully");
     }
 
     public function destroy($id)
     {
         $money = Money::findOrFail($id)->delete();
-        return redirect()->route('admins.money.index')->with('message', "Contact has been deleted successfully");
+        return redirect()->route('users.money.index')->with('message', "Contact has been deleted successfully");
     }
 }

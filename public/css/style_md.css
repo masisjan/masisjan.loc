@@ -339,6 +339,18 @@
         border-radius:15px;
     }
 
+    .div_cat{
+        width: 350px;
+        height: 550px;
+        font-size: 18px;
+        color: white;
+        background-color: #163f9d;
+    }
+
+    .div_cat input{
+        margin: 10px 0;
+    }
+
     /*END  MENU  */
 
     /*POISK */

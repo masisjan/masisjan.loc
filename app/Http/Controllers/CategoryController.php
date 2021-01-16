@@ -10,13 +10,13 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::latest()->paginate(5);
-        return view('admins.categories.index', compact('categories'));
+        return view('users.categories.index', compact('categories'));
     }
 
     public function create()
     {
         $category = new Category();
-        return view('admins.categories.create', compact('category'));
+        return view('users.categories.create', compact('category'));
     }
 
     public function update($id, Request $request)
@@ -31,13 +31,13 @@ class CategoryController extends Controller
 
         $data = $request->all();
         $category->update($data);
-        return redirect()->route('admins.categories.index')->with('message', "Contact has been updated successfully");
+        return redirect()->route('users.categories.index')->with('message', "Contact has been updated successfully");
     }
 
     public function edit($id)
     {
         $category = Category::findOrFail($id);
-        return view('admins.categories.edit', compact('category'));
+        return view('users.categories.edit', compact('category'));
     }
 
     public function store(Request $request)
@@ -53,13 +53,13 @@ class CategoryController extends Controller
 //        dd($request);
         Category::create($data);
 
-        return redirect()->route('admins.categories.index', compact('data'))
+        return redirect()->route('users.categories.index', compact('data'))
             ->with('message', "Contact has been updated successfully");
     }
 
     public function destroy($id)
     {
         $category = Category::findOrFail($id)->delete();
-        return redirect()->route('admins.categories.index')->with('message', "Contact has been deleted successfully");
+        return redirect()->route('users.categories.index')->with('message', "Contact has been deleted successfully");
     }
 }

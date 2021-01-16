@@ -16,7 +16,7 @@ class PostController extends Controller
     {
         $posts = Post::latest()->paginate(5);
         $id = Auth::id();
-        return view('admins.posts.index', compact('posts', 'id'));
+        return view('users.posts.index', compact('posts', 'id'));
     }
 
     public function create()
@@ -24,7 +24,7 @@ class PostController extends Controller
         $allcategories = Category::orderBy('name')->get();
         $post = new Post();
         $catPosts = array();
-        return view('admins.posts.create', compact('post', 'allcategories', 'catPosts'));
+        return view('users.posts.create', compact('post', 'allcategories', 'catPosts'));
     }
 
     public function update($id, Request $request)
@@ -119,7 +119,7 @@ class PostController extends Controller
             $post->categories()->attach($cat_id);
         }
 
-        return redirect()->route('admins.posts.index', compact(  'image_name', 'img_arr_string','short_text'))
+        return redirect()->route('users.posts.index', compact(  'image_name', 'img_arr_string','short_text'))
             ->with('message', "Contact has been updated successfully");
     }
 
@@ -130,7 +130,7 @@ class PostController extends Controller
         $allcategories = Category::orderBy('name')->get();
         $catPosts = $post->categories;
 
-        return view('admins.posts.edit', compact('post', 'images', 'allcategories', 'catPosts'));
+        return view('users.posts.edit', compact('post', 'images', 'allcategories', 'catPosts'));
     }
 
     public function store(Request $request)
@@ -196,7 +196,7 @@ class PostController extends Controller
         $cat_id = $request->categories;
         $post->categories()->attach($cat_id);
 
-        return redirect()->route('admins.posts.index', compact(  'image_name', 'img_arr_string'))
+        return redirect()->route('users.posts.index', compact(  'image_name', 'img_arr_string'))
             ->with('message', "Contact has been updated successfully");
     }
 
@@ -207,7 +207,7 @@ class PostController extends Controller
         $url = $post->post_url;
         $post_url = parse_url($url, PHP_URL_HOST);
 
-        return view('admins.posts.show', compact('post','images', 'post_url'));
+        return view('users.posts.show', compact('post','images', 'post_url'));
     }
 
     public function destroy($id)
@@ -223,7 +223,7 @@ class PostController extends Controller
             }
         }
         $post = Post::findOrFail($id)->delete();
-        return redirect()->route('admins.posts.index')->with('message', "Contact has been deleted successfully");
+        return redirect()->route('users.posts.index')->with('message', "Contact has been deleted successfully");
     }
 //.........................................
     public function news()

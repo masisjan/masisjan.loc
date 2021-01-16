@@ -332,6 +332,18 @@
         border-radius: 15px;
     }
 
+    .div_cat{
+        width: 350px;
+        height: 550px;
+        font-size: 18px;
+        color: white;
+        background-color: #163f9d;
+    }
+
+    .div_cat input{
+        margin: 10px 0;
+    }
+
     /*END  MENU  */
     /*POISK */
     .search:after {
@@ -693,24 +705,20 @@
         transition: transform .3s ease-in-out;
     }
 
-    ul.ks-cboxtags li input[type="checkbox"]:checked + label::before {
+    ul.ks-cboxtags li input[type="checkbox"]:checked + label::before{
         content: "\f00c";
         transform: rotate(-360deg);
         transition: transform .3s ease-in-out;
     }
 
-    ul.ks-cboxtags li input[type="checkbox"]:checked + label {
+    ul.ks-cboxtags li input[type="checkbox"]:checked + label{
         border: 2px solid #a97a0f;
         background-color: #dea115;
         color: #000;
         transition: all .2s;
     }
 
-    ul.ks-cboxtags li input[type="checkbox"] {
-        /*   display: absolute; */
-    }
-
-    ul.ks-cboxtags li input[type="checkbox"] {
+    ul.ks-cboxtags li input[type="checkbox"]{
         /*   position: absolute; */
         opacity: 0;
     }
