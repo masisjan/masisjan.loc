@@ -3,12 +3,12 @@
 @section('content')
 
       <div class="bg_k2 text_houm_tu center">
-           <p>Add New news</p>
+           <p>Add New event</p>
       </div>
       <div><br>
-           <form action="{{ route('users.posts.store') }}" method="POST" enctype="multipart/form-data">
+           <form action="{{ route('users.events.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                @include('users.posts._form')
+                @include('users.events._form')
            </form>
       </div>
 

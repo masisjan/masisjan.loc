@@ -15,8 +15,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::latest()->paginate(5);
-        $id = Auth::id();
-        return view('users.posts.index', compact('posts', 'id'));
+        return view('users.posts.index', compact('posts'));
     }
 
     public function create()

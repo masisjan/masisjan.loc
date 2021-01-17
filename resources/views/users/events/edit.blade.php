@@ -3,13 +3,13 @@
 @section('content')
 
     <div class="bg_k2 text_houm_tu center">
-        <p>Update news</p>
+        <p>Update event</p>
     </div>
     <div><br>
-        <form action="{{ route('users.posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('users.events.update', $event->id) }}" method="POST" enctype="multipart/form-data">
             @method('PUT')
             @csrf
-            @include('users.posts._form')
+            @include('users.events._form')
         </form>
     </div>
 
