@@ -39,7 +39,7 @@
     </div>
 
     <div class="input-container">
-        <div id="map" style="height: 400px"></div>
+        <div id="map" style="height: 500px"></div>
         <input type="hidden" id="cord0" name="cord0" value="{{ old('cord0', $event->cord0) }}">
         <input type="hidden" id="cord1" name="cord1" value="{{ old('cord1', $event->cord1) }}">
         <br>

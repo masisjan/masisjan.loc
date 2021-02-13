@@ -35,7 +35,7 @@ class PostController extends Controller
             'image'       => 'mimes:jpeg,png,jpg|max:2048',
             'title'       => 'required|max:120',
             'text'        => 'nullable|min:99',
-            'word'        => 'nullable|min:10|max:120',
+            'word'        => 'nullable|min:10|max:150',
             'images'      => 'array|max:2',
             'images.*'    => 'mimes:jpeg,png,jpg|max:2048',
             'post_url'    => 'nullable|active_url',
@@ -138,7 +138,7 @@ class PostController extends Controller
             'image'       => 'mimes:jpeg,png,jpg|max:2048',
             'title'       => 'required|min:10|max:120',
             'text'        => 'nullable|min:99',
-            'word'        => 'nullable|min:10|max:120',
+            'word'        => 'nullable|min:10|max:150',
             'images'      => 'array|max:2',
             'images.*'    => 'mimes:jpeg,png,jpg|max:2048',
             'post_url'    => 'nullable|active_url',
@@ -228,21 +228,30 @@ class PostController extends Controller
     public function news()
     {
         $posts = Post::where('publish', 'yes')->latest()->paginate(10);
-        return view('all.news.index', compact('posts'));
+        $og_title = 'Մասիսջան, ծանոթացիր Մասիս քաղաքի բոլոր նորություններին';
+        $og_description = 'Այստեղ կարող եք տեղեկատվություն գտնել Մասիս քաղաքի վերաբերյալ բոլոր նորությունների մասին․․․';
+        return view('all.news.index', compact('posts', 'og_description', 'og_title'));
     }
 
     public function news_show($id)
     {
         $post = Post::findOrFail($id);
-        $images = explode(',', $post->images);
-        $url = $post->post_url;
-        $post_url = parse_url($url, PHP_URL_HOST);
-        $posts = Post::where('publish', 'yes')->latest()->take(6)->get();
-        $post->count = $post->count +1;
-        $post->save();
-        if($post->publish == 'yes')
-        return view('all.news.show', compact('post', 'images', 'post_url','posts'));
-        else
+        if($post->publish == 'yes') {
+            $post->count = $post->count + 1;
+            $post->save();
+            $images = explode(',', $post->images);
+            $url = $post->post_url;
+            $post_url = parse_url($url, PHP_URL_HOST);
+            $og_title = $post->title;
+            $og_description = $post->short_text;
+            if($post->image){
+                $og_image = asset('storage/uploads/image/posts/' . $post->image);
+            }else{
+                $og_image = asset('image/app/default-post.jpg');
+            }
+            return view('all.news.show', compact('post', 'images', 'post_url',
+                                                            'og_title', 'og_description', 'og_image'));
+        }else
         return redirect()->route('news');
     }
 }

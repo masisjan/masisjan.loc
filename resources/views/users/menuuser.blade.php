@@ -7,7 +7,9 @@
                 <a class="menu__item " href="{{ route('users.money.index') }}"><i class="fas fa-money-bill-alt" ></i> Money</a>
                 <a class="menu__item " href="{{ route('users.menus.index') }}"><i class="fas fa-align-left" ></i> ՄԵՆՅՈՒ</a>
                 <a class="menu__item " href="{{ route('users.words.index') }}"><i class="fas fa-warehouse" ></i> Home title</a>
+                <a class="menu__item " href="{{ route('users.places.index') }}"><i class="fas fa-map-marker-alt"></i> ՎԱՅՐԵՐ</a>
             </div>
+        <a class="menu__item " href="{{ route('users.ads.index') }}"><i class="fas fa-ad"></i> ԳՈՎԱԶԴ</a>
         <a class="menu__item " href="{{ route('users.all') }}"><i class="fas fa-circle" ></i> ԲՈԼՈՐԸ</a>
         <a class="menu__item accordion " href="#"><i class="fas fa-address-card" ></i> ԱՆՁՆԱԿԱՆ ԷՋ</a>
             <div class="margin_left_3 panel content">

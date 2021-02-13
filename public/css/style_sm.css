@@ -130,6 +130,10 @@
         max-width: 30px;
     }
 
+    .height_50 {
+        height: 50px;
+    }
+
     .vh {
         height: 100vh;
     }

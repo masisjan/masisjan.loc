@@ -1,5 +1,4 @@
 @extends('layouts.main')
-@section('title', 'Contact App | All contacts')
 @section('content')
 
     <div class="houm vh relative">
@@ -8,7 +7,7 @@
 
             @if($words->count())
                 @foreach($words as $index => $word)
-                    <div id="word{{  $index + 1 }}" @if($index + 1 > 1) class="block_non_xl block_non_sm block_non_md" @endif >
+                    <div id="word{{  $index + 1 }}" @if($index + 1 > 1) class="block_non" @endif >
                         <p class="text_houm_tu center_sm padding-top">{{ $word->title_1 }}</p>
                         <p class="text_houm_uan center_sm text_upp">{{ $word->title_2 }}</p>
                         <p class="text_houm_tu center_sm">{{ $word->title_3 }}</p>
@@ -20,7 +19,7 @@
             <p id="word_click" class="button1 button1_text center_sm display_i_b">apload</p>
             </div>
             <div class="center relative">
-                <div id="guest" class="center_b center icon_menu block_non_xl block_non_sm block_non_md">
+                <div id="guest" class="center_b center icon_menu block_non">
                     <a class="guest_icon" href="#"><i class="far fa-arrow-alt-circle-left" ></i>ԲՆԱԿԻՉ</a>
                     <a class="guest_icon" href="#">ՀՅՈՒՐ <i class="far fa-arrow-alt-circle-right" ></i></a>
                 </div>

@@ -22,6 +22,7 @@ class CreateMenusTable extends Migration
             $table->string('href');
             $table->string('count')->default('0');
             $table->string('category_id');
+            $table->string('table_id');
             $table->timestamps();
 
 //            $table->foreign('category_id')->references('id')->on('menus');

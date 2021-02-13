@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
 class EventController extends Controller
@@ -27,12 +28,13 @@ class EventController extends Controller
         $user_id = Auth::id();
 
         $request->validate([
-            'image'       => 'mimes:jpeg,png,jpg|max:2048',
-            'title'       => 'required|max:120',
-            'text'        => 'nullable|min:99',
-            'word'        => 'nullable|min:10|max:120',
-            'images'      => 'array|max:2',
-            'images.*'    => 'mimes:jpeg,png,jpg|max:2048',
+            'image'        => 'mimes:jpeg,png,jpg|max:2048',
+            'title'        => 'required|min:10|max:120',
+            'text'         => 'nullable|min:99',
+            'organizer'    => 'nullable|max:99',
+            'date_start'   => 'nullable|max:99',
+            'date_end'     => 'nullable|max:99',
+            'value'        => 'nullable|max:30',
         ]);
 
 //        glxavor nkar@ sarqelu hamar
@@ -55,65 +57,33 @@ class EventController extends Controller
             $image_name = "";
         }
 
-        //        nkarner@ sarqelu hamar pord
-
-        $img_arr_string = "";
-        if ($request->file('images')) {
-            $images = explode(',', $event->images);
-            foreach ($images as $img) {
-                Storage::disk('public')->delete('uploads/image/events/' .  $img);
-            }
-            $img_arr = array();
-            foreach ($request->File('images') as $img) {
-                $imgs_file = Image::make($img)->resize(700, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-                $imgs_file->resizeCanvas(null, 350);
-                $imgs_name = rand(111111, 999999) . '.jpg';
-                $imgs_file->save('storage/uploads/image/events/'. $imgs_name, 60);
-                array_push($img_arr, "$imgs_name");
-            }
-            $img_arr_string = implode(",", $img_arr);
-        }else if ($event->images && $request->images_delete !== 'none'){
-            $img_arr_string = $event->images;
-        }else if ($request->images_delete == 'none'){
-            $images = explode(',', $event->images);
-            foreach ($images as $img) {
-                Storage::disk('public')->delete('uploads/image/events/' .  $img);
-            }
-            $img_arr_string = "";
-        }else{
-            $img_arr_string = "";
-        }
-
         $short_text = mb_substr($request->text, 0, 160, "utf-8") . '...';
 
-
-        $form_data = array(
+        $form = array(
             'image'                  =>  $image_name,
             'title'                  =>  $request->title,
             'text'                   =>  $request->text,
-            'images'                 =>  $img_arr_string,
             'short_text'             =>  $short_text,
-            'text_video'             =>  $request->text_video,
-            'video'                  =>  $request->video,
-            'word'                   =>  $request->word,
+            'organizer'              =>  $request->organizer,
+            'date_start'             =>  $request->date_start,
+            'date_end'               =>  $request->date_end,
+            'value'                  =>  $request->value,
+            'cord0'                  =>  $request->cord0,
+            'cord1'                  =>  $request->cord1,
             'publish'                =>  $request->publish,
             'user_id'                =>  $user_id,
         );
 
-        $event->update($form_data);
+        $event->update($form);
 
-        return redirect()->route('users.events.index', compact(  'image_name', 'img_arr_string','short_text'))
+        return redirect()->route('users.events.index', compact(  'image_name', 'short_text'))
             ->with('message', "Contact has been updated successfully");
     }
 
     public function edit($id)
     {
         $event= Event::findOrFail($id);
-        $images = explode(',', $event->images);
-
-        return view('users.events.edit', compact('event', 'images', 'allcategories', 'catEvents'));
+        return view('users.events.edit', compact('event'));
     }
 
     public function store(Request $request)
@@ -144,14 +114,14 @@ class EventController extends Controller
 
         $short_text = mb_substr($request->text, 0, 160, "utf-8") . '...';
 
-        $form_data = array(
+        $form = array(
             'image'                  =>  $image_name,
             'title'                  =>  $request->title,
             'text'                   =>  $request->text,
             'short_text'             =>  $short_text,
             'organizer'              =>  $request->organizer,
             'date_start'             =>  $request->date_start,
-            'date_end '              =>  $request->date_end,
+            'date_end'               =>  $request->date_end,
             'value'                  =>  $request->value,
             'cord0'                  =>  $request->cord0,
             'cord1'                  =>  $request->cord1,
@@ -159,7 +129,7 @@ class EventController extends Controller
             'user_id'                =>  $user_id,
         );
 
-        $event = Event::create($form_data);
+        $event = Event::create($form);
 
         return redirect()->route('users.events.index', compact(  'image_name'))
             ->with('message', "Contact has been updated successfully");
@@ -169,8 +139,6 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
         $images = explode(',', $event->images);
-        $url = $event->event_url;
-        $event_url = parse_url($url, PHP_URL_HOST);
 
         return view('users.events.show', compact('event','images', 'event_url'));
     }
@@ -181,34 +149,33 @@ class EventController extends Controller
         if ($event->image) {
             Storage::disk('public')->delete('uploads/image/events/' . $event->image);
         }
-        if ($event->images) {
-            $images = explode(',', $event->images);
-            foreach ($images as $img) {
-                Storage::disk('public')->delete('uploads/image/events/' .  $img);
-            }
-        }
         $event = Event::findOrFail($id)->delete();
         return redirect()->route('users.events.index')->with('message', "Contact has been deleted successfully");
     }
 //.........................................
-    public function news()
+    public function events()
     {
         $events = Event::where('publish', 'yes')->latest()->paginate(10);
-        return view('all.news.index', compact('events'));
+        $og_title = 'Մասիսջան, Մասիս քաղաքի բոլոր միջոցառումները մեկ վայրում';
+        $og_description = 'Այստեղ կարող եք տեղեկատվություն գտնել Մասիս քաղաքի միջոցառումների մասին․․․';
+        return view('all.events.index', compact('events', 'og_description', 'og_title'));
     }
 
-    public function news_show($id)
+    public function events_show($id)
     {
         $event = Event::findOrFail($id);
-        $images = explode(',', $event->images);
-        $url = $event->event_url;
-        $event_url = parse_url($url, PHP_URL_HOST);
-        $events = Event::where('publish', 'yes')->latest()->take(6)->get();
-        $event->count = $event->count +1;
-        $event->save();
-        if($event->publish == 'yes')
-            return view('all.news.show', compact('event', 'images', 'event_url','events'));
-        else
-            return redirect()->route('news');
+        if($event->publish == 'yes') {
+            $event->count = $event->count + 1;
+            $event->save();
+            $og_title = $event->title;
+            $og_description = mb_substr($event->text, 0, 160, "utf-8") . '...';
+            if($event->image){
+                $og_image = asset('storage/uploads/image/events/' . $event->image);
+            }else{
+                $og_image = asset('image/app/default-post.jpg');
+            }
+            return view('all.events.show', compact('event', 'og_title', 'og_description', 'og_image'));
+        }else
+            return redirect()->route('events');
     }
 }

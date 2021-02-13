@@ -9,11 +9,11 @@ class Event extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'image ',
-                            'title ',
-                            'text ',
+    protected $fillable = [ 'image',
+                            'title',
+                            'text',
                             'short_text',
-                            'organizer ',
+                            'organizer',
                             'date_start',
                             'date_end',
                             'value',

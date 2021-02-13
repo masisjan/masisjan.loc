@@ -1,5 +1,4 @@
 @extends('layouts.main')
-@section('title', 'Contact App | All contacts')
 @section('content')
     <div class="padding_head container container_md container_sm clearfix">
         <div class="col col_9 col_md col_9_md">
@@ -30,6 +29,7 @@
             <br>
         </div>
         <div class="col col_3 col_md col_3_md">
+            @include('api._baner_right')
         </div>
     </div>
 

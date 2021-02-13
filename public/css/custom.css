@@ -2,4 +2,74 @@ body {
     background-color :#f0f2f5
 }
 
+.block_non{
+    display: none;
+}
+.b_r {
+    border-radius: 50px;
+}
 
+.bg_nitral {
+    background-color: #dfe1e9;
+}
+
+.padding_all {
+    padding: 15px;
+}
+
+#rating button, button:active, button:focus {
+    /*border:none;*/
+    outline: none !important;
+    border: 1px #dfe1e9;
+    background-color: #dfe1e9;
+}
+
+/* RATING*/
+.icon_rating i {
+    width: 14px;
+    height: 14px;
+    text-align: center;
+    font-size: 10px;
+    color: #dea115;
+    border: 2px solid #dea115;
+    padding: 2px;
+    margin: 7px 0;
+    border-radius: 50px;
+}
+
+.icon_rating i:hover{
+    background-color: #dea115;
+    color: #163f9d;
+}
+.icon_rating input[type=radio]:checked + label i{
+    background-color: #163f9d;
+}
+
+.icon_rating input[type="radio"]{
+    opacity: 0;
+}
+
+.fullscreen-bg {
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+}
+
+.block_place {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    width: 270px;
+    height: 120px;
+    border-radius: 10px;
+    color: white;
+    background-color: rgba(120,120,120,0.7);
+}
+
+.logo_place {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+}

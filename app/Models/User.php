@@ -21,6 +21,16 @@ class User extends Authenticatable
         return $this->hasMany(Event::class);
     }
 
+    public function flights()
+    {
+        return $this->hasMany(Flight::class);
+    }
+
+    public function taxis()
+    {
+        return $this->hasMany(Taxi::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *

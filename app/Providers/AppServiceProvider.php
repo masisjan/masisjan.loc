@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Ad;
 use App\Models\Money;
+use App\Models\Post;
 use App\Models\Word;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
@@ -30,5 +32,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
         View::share('words', Word::all());
         View::share('money', Money::latest()->first());
+        View::share('posts', Post::where('publish', 'yes')->latest()->take(6)->get());
+        View::share('ads', Ad::inRandomOrder()->first());
     }
 }
