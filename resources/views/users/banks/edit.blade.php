@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="bg_k2 text_houm_tu center">
-        <p>Update bank</p>
+        <p>Խմբագրել</p>
     </div>
     <div><br>
         <form action="{{ route('users.banks.update', $bank->id) }}" method="POST" enctype="multipart/form-data">

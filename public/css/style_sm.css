@@ -41,6 +41,12 @@
 
     /*API*/
 
+    .border_top_sm {
+        margin: 15px 0;
+        padding: 15px 0;
+        border-top: 2px solid #dea115;
+    }
+
     .block_non_sm {
         display: none;
     }
@@ -340,10 +346,10 @@
     }
     /*                              top bajinner  */
 
-    .div_b_m{
-        border-radius: 15px;
-        border: 2px solid  #dea115;
-    }
+    /*.div_b_m{*/
+    /*    border-radius: 15px;*/
+    /*    border: 2px solid  #dea115;*/
+    /*}*/
 
     .div_b_m p{
         margin: 10px;
@@ -801,6 +807,19 @@
 
     .right {
         float: right;
+    }
+
+    .cucanak {
+        background-color: #daa520;
+        margin: 10px;
+        padding: 10px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #000000;
+        text-transform: uppercase;
+    }
+    .cucanak img{
+        width: 50px;
     }
 
     /*.f_right {*/

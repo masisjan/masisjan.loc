@@ -70,6 +70,20 @@
         text-transform: uppercase;
     }
 
+    .cucanak {
+        width: 600px;
+        background-color: #daa520;
+        margin: 15px;
+        padding: 30px;
+        font-size: 20px;
+        font-weight: 600;
+        color: #000000;
+        text-transform: uppercase;
+    }
+    .cucanak img{
+        width: 170px;
+    }
+
     /*.outer {*/
     /*    position: relative;*/
     /*}*/
@@ -115,6 +129,10 @@
 
     .width_80 hr {
         width: 90%;
+    }
+
+    .width_70 {
+        width: 70%;
     }
 
     .logo_mj {
@@ -319,10 +337,10 @@
     }
 
     /*                              top bajinner  */
-    .div_b_m {
-        border-radius: 15px;
-        border: 2px solid #dea115;
-    }
+    /*.div_b_m {*/
+    /*    border-radius: 15px;*/
+    /*    border: 2px solid #dea115;*/
+    /*}*/
 
     .div_b_m p {
         margin: 10px 0;

@@ -3,29 +3,36 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Taxi;
+use App\Models\Menu;
+use App\Models\My_count;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class TaxiController extends Controller
 {
     public function index()
     {
-        $taxis = Taxi::latest()->paginate(5);
+        if(auth()->user()->type == 'admin'){
+            $taxis = Service::where('tab_name', '5')->latest()->paginate(5);
+        }else{
+            $taxis = Service::where('tab_name', '5')->where('user_id', auth()->user()->id)->latest()->paginate(5);
+        }
         return view('users.taxis.index', compact('taxis'));
     }
 
     public function create()
     {
-        $taxi = new Taxi();
+        $taxi = new Service();
         return view('users.taxis.create', compact('taxi'));
     }
 
     public function update($id, Request $request)
     {
-        $taxi = Taxi::findOrFail($id);
+        $taxi = Service::findOrFail($id);
         $user_id = Auth::id();
 
         $request->validate([
@@ -60,6 +67,11 @@ class TaxiController extends Controller
             $image_name = "";
         }
 
+        $image_qr = $taxi->qr_cod;
+        if ($taxi->qr_cod == null) {
+            $image_qr = $user_id . 'qr' . date('Y-m-d-H-i-s') . '.svg';
+            QrCode::encoding('UTF-8')->format('svg')->size(500)->backgroundColor(218, 165, 32)->generate(url("taxis/{$taxi->id}"), 'storage/uploads/image/qr/' . $image_qr);
+        }
 
         $form = array(
             'title'                  =>  $request->title,
@@ -81,7 +93,9 @@ class TaxiController extends Controller
             'sunday'                 =>  $request->sunday,
             'text'                   =>  $request->text,
             'publish'                =>  $request->publish,
+            'qr_cod'                 =>  $image_qr,
             'user_id'                =>  $user_id,
+            'tab_name'               =>  5,
         );
 
         $taxi->update($form);
@@ -92,8 +106,16 @@ class TaxiController extends Controller
 
     public function edit($id)
     {
-        $taxi= Taxi::findOrFail($id);
-        return view('users.taxis.edit', compact('taxi'));
+        $taxi = Service::findOrFail($id);
+        if(auth()->user()->type == 'admin') {
+            return view('users.taxis.edit', compact('taxi'));
+        }else{
+            if(auth()->user()->id == $taxi->user_id){
+                return view('users.taxis.edit', compact('taxi'));
+            }else{
+                return redirect()->route('users.taxis.index');
+            }
+        }
     }
 
     public function store(Request $request)
@@ -144,9 +166,10 @@ class TaxiController extends Controller
             'text'                   =>  $request->text,
             'publish'                =>  $request->publish,
             'user_id'                =>  $user_id,
+            'tab_name'               =>  5,
         );
 
-        $taxi = Taxi::create($form);
+        $taxi = Service::create($form);
 
         return redirect()->route('users.taxis.index', compact(  'image_name'))
             ->with('message', "Contact has been updated successfully");
@@ -154,26 +177,37 @@ class TaxiController extends Controller
 
     public function show($id)
     {
-        $taxi = Taxi::findOrFail($id);
+        $taxi = Service::findOrFail($id);
         $url = $taxi->taxi_url;
         $taxi_url = parse_url($url, PHP_URL_HOST);
 
-        return view('users.taxis.show', compact('taxi','taxi_url'));
+        if(auth()->user()->type == 'admin') {
+            return view('users.taxis.show', compact('taxi','taxi_url'));
+        }else{
+            if(auth()->user()->id == $taxi->user_id){
+                return view('users.taxis.show', compact('taxi','taxi_url'));
+            }else{
+                return redirect()->route('users.taxis.index');
+            }
+        }
     }
 
     public function destroy($id)
     {
-        $taxi = Taxi::findOrFail($id);
+        $taxi = Service::findOrFail($id);
+        if ($taxi->user_id != Auth::id() || auth()->user()->type != 'admin') {
+            return redirect()->back();
+        }
         if ($taxi->image) {
             Storage::disk('public')->delete('uploads/image/taxis/' . $taxi->image);
         }
-        $taxi = Taxi::findOrFail($id)->delete();
+        $taxi = Service::findOrFail($id)->delete();
         return redirect()->route('users.taxis.index')->with('message', "Contact has been deleted successfully");
     }
 //.........................................
     public function taxis()
     {
-        $taxis = Taxi::where('publish', 'yes')->orderBy('rating', 'DESC')->paginate(10);
+        $taxis = Service::where('publish', 'yes')->where('confirm', 'yes')->where('tab_name', '5')->orderBy('rating', 'DESC')->paginate(10);
         $og_title = 'Մասիսջան, Մասիս քաղաքի բոլոր տաքսիները մեկ վայրում';
         $og_description = 'Այստեղ կարող եք տեղեկատվություն գտնել Մասիս քաղաքում գործող բոլոր տաքսիների մասին․․․';
         return view('all.taxis.index', compact('taxis', 'og_description', 'og_title'));
@@ -181,14 +215,14 @@ class TaxiController extends Controller
 
     public function taxis_show($id, Request $request)
     {
-        $taxi = Taxi::findOrFail($id);
-        if($taxi->publish == 'yes') {
+        $taxi = Service::findOrFail($id);
+        if($taxi->publish == 'yes' && $taxi->confirm == 'yes') {
             $taxi->count = $taxi->count + 1;
             $taxi->save();
             $url_site = $taxi->site;
             $site_url = parse_url($url_site, PHP_URL_HOST);
             $table_id = $taxi->tab_name;
-            $table_name = "taxis";
+            $table_name = "services";
             $table_rating = $taxi->rating;
             $og_title = $taxi->title;
             $og_description = mb_substr($taxi->text, 0, 160, "utf-8") . '...';
@@ -197,8 +231,12 @@ class TaxiController extends Controller
             }else{
                 $og_image = asset('image/app/default-post.jpg');
             }
+            $menu = Menu::updateOrInsert(['table_id' => $table_id])->increment('count');
+            if(Auth::check()) {
+                $my_count = My_count::updateOrInsert(['user_id' => Auth::id()], ['menu_id' => $table_id])->increment('count');
+            }
             return view('all.taxis.show', compact('taxi', 'site_url', 'table_id', 'id', 'table_name',
-                                                        'table_rating', 'og_title', 'og_description', 'og_image'));
+                'table_rating', 'og_title', 'og_description', 'og_image'));
         }else
             return redirect()->route('taxis');
     }

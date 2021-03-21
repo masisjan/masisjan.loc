@@ -2,30 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Flight;
+use App\Models\Menu;
+use App\Models\My_count;
 use App\Models\Rating;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class FlightController extends Controller
 {
     public function index()
     {
-        $flights = Flight::latest()->paginate(5);
+        if(auth()->user()->type == 'admin'){
+            $flights = Service::where('tab_name', '3')->latest()->paginate(5);
+        }else{
+            $flights = Service::where('tab_name', '3')->where('user_id', auth()->user()->id)->latest()->paginate(5);
+        }
         return view('users.flights.index', compact('flights'));
     }
 
     public function create()
     {
-        $flight = new Flight();
+        $flight = new Service();
         return view('users.flights.create', compact('flight'));
     }
 
     public function update($id, Request $request)
     {
-        $flight = Flight::findOrFail($id);
+        $flight = Service::findOrFail($id);
         $user_id = Auth::id();
 
         $request->validate([
@@ -60,6 +67,11 @@ class FlightController extends Controller
             $image_name = "";
         }
 
+        $image_qr = $flight->qr_cod;
+        if ($flight->qr_cod == null) {
+            $image_qr = $user_id . 'qr' . date('Y-m-d-H-i-s') . '.svg';
+            QrCode::encoding('UTF-8')->format('svg')->size(500)->backgroundColor(218, 165, 32)->generate(url("flights/{$flight->id}"), 'storage/uploads/image/qr/' . $image_qr);
+        }
 
         $form = array(
             'title'                  =>  $request->title,
@@ -81,7 +93,9 @@ class FlightController extends Controller
             'sunday'                 =>  $request->sunday,
             'text'                   =>  $request->text,
             'publish'                =>  $request->publish,
+            'qr_cod'                 =>  $image_qr,
             'user_id'                =>  $user_id,
+            'tab_name'               =>  3,
         );
 
         $flight->update($form);
@@ -92,8 +106,16 @@ class FlightController extends Controller
 
     public function edit($id)
     {
-        $flight= Flight::findOrFail($id);
-        return view('users.flights.edit', compact('flight'));
+        $flight = Service::findOrFail($id);
+        if(auth()->user()->type == 'admin') {
+            return view('users.flights.edit', compact('flight'));
+        }else{
+            if(auth()->user()->id == $flight->user_id){
+                return view('users.flights.edit', compact('flight'));
+            }else{
+                return redirect()->route('users.flights.index');
+            }
+        }
     }
 
     public function store(Request $request)
@@ -144,9 +166,10 @@ class FlightController extends Controller
             'text'                   =>  $request->text,
             'publish'                =>  $request->publish,
             'user_id'                =>  $user_id,
+            'tab_name'               =>  3,
         );
 
-        $flight = Flight::create($form);
+        $flight = Service::create($form);
 
         return redirect()->route('users.flights.index', compact(  'image_name'))
             ->with('message', "Contact has been updated successfully");
@@ -154,41 +177,52 @@ class FlightController extends Controller
 
     public function show($id)
     {
-        $flight = Flight::findOrFail($id);
+        $flight = Service::findOrFail($id);
         $url = $flight->flight_url;
         $flight_url = parse_url($url, PHP_URL_HOST);
 
-        return view('users.flights.show', compact('flight','flight_url'));
+        if(auth()->user()->type == 'admin') {
+            return view('users.flights.show', compact('flight','flight_url'));
+        }else{
+            if(auth()->user()->id == $flight->user_id){
+                return view('users.flights.show', compact('flight','flight_url'));
+            }else{
+                return redirect()->route('users.flights.index');
+            }
+        }
     }
 
     public function destroy($id)
     {
-        $flight = Flight::findOrFail($id);
+        $flight = Service::findOrFail($id);
+        if ($flight->user_id != Auth::id() || auth()->user()->type != 'admin') {
+            return redirect()->back();
+        }
         if ($flight->image) {
             Storage::disk('public')->delete('uploads/image/flights/' . $flight->image);
         }
-        $flight = Flight::findOrFail($id)->delete();
+        $flight = Service::findOrFail($id)->delete();
         return redirect()->route('users.flights.index')->with('message', "Contact has been deleted successfully");
     }
 //.........................................
     public function flights()
     {
-        $flights = Flight::where('publish', 'yes')->orderBy('rating', 'DESC')->paginate(10);
-        $og_title = 'Մասիսջան, Մասիս քաղաքի բոլոր ավիատոմսերի վաճարքի կետերը մեկ վայրում';
-        $og_description = 'Այստեղ կարող եք տեղեկատվություն գտնել Մասիս քաղաքում գործող բոլոր ավիատոմսերի վաճարքի կետերի մասին․․․';
+        $flights = Service::where('publish', 'yes')->where('confirm', 'yes')->where('tab_name', '3')->orderBy('rating', 'DESC')->paginate(10);
+        $og_title = 'Մասիսջան, Մասիս քաղաքի բոլոր ավիատոմսերը մեկ վայրում';
+        $og_description = 'Այստեղ կարող եք տեղեկատվություն գտնել Մասիս քաղաքում գործող բոլոր ավիատոմսերի վաճարքի մասին․․․';
         return view('all.flights.index', compact('flights', 'og_description', 'og_title'));
     }
 
-    public function flights_show($id)
+    public function flights_show($id, Request $request)
     {
-        $flight = Flight::findOrFail($id);
-        if($flight->publish == 'yes') {
+        $flight = Service::findOrFail($id);
+        if($flight->publish == 'yes' && $flight->confirm == 'yes') {
             $flight->count = $flight->count + 1;
             $flight->save();
             $url_site = $flight->site;
             $site_url = parse_url($url_site, PHP_URL_HOST);
             $table_id = $flight->tab_name;
-            $table_name = "flights";
+            $table_name = "services";
             $table_rating = $flight->rating;
             $og_title = $flight->title;
             $og_description = mb_substr($flight->text, 0, 160, "utf-8") . '...';
@@ -197,8 +231,12 @@ class FlightController extends Controller
             }else{
                 $og_image = asset('image/app/default-post.jpg');
             }
-            return view('all.flights.show', compact('flight', 'site_url', 'table_id', 'id',
-                                                            'table_name', 'table_rating', 'og_title', 'og_description', 'og_image'));
+            $menu = Menu::updateOrInsert(['table_id' => $table_id])->increment('count');
+            if(Auth::check()) {
+                $my_count = My_count::updateOrInsert(['user_id' => Auth::id()], ['menu_id' => $table_id])->increment('count');
+            }
+            return view('all.flights.show', compact('flight', 'site_url', 'table_id', 'id', 'table_name',
+                'table_rating', 'og_title', 'og_description', 'og_image'));
         }else
             return redirect()->route('flights');
     }

@@ -174,7 +174,8 @@
 
 <hr>
 <button type="submit" class="btn btn-primary button1 button1_text bg_save">{{ $bank->exists ? 'Update' : 'Save' }}</button>
-<a href=" {{ route('users.banks.index') }} " class="btn btn-outline-secondary button1 button1_text bg_cancel">Cancel</a>
+<a href=" {{ route('users.banks.index') }} " class="btn btn-outline-secondary button1 button1_text bg_cancel">Չեղարկել</a>
+<br><br>
 
 <script src=" {{ asset('js/delete_img.js') }} "></script>
 <script src=" {{ asset('js/map_form.js') }} "></script>

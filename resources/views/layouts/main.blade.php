@@ -33,7 +33,7 @@
     <link href=" {{ asset('css/style_xl.css') }} " rel="stylesheet">
     <link href=" {{ asset('css/style_md.css') }} " rel="stylesheet">
     <link href=" {{ asset('css/style_sm.css') }} " rel="stylesheet">
-    <link href=" {{ asset('css/font.css') }} " rel="stylesheet"></head>
+</head>
 <body>
 {{--                          navbar                --}}
     <div class="raz navbar clearfix">
@@ -66,33 +66,35 @@
                             <div class="col col_md col_4 col_4_md"><p class="bg_k2 " id="">Կարևօր բաժինները</p></div>
                         </div>
                         <div class="width_350 alltop" id="alltop">
-                            <a class="menu__item" id="all_img1"  href="#"><i class="far fa-newspaper" ></i> ՆՈՐՈՒԹՅՈՒՆՆԵՐ</a>
-                            <a class="menu__item" id="all_img2"  href="#"><i class="fas fa-calendar-alt" ></i> ՄԻՋՈՑԱՌՈՒՄՆԵՐ</a>
-                            <a class="menu__item" id="all_img3"  href="#"><i class="fas fa-briefcase" ></i> ԱՇԽԱՏԱՆՔ</a>
-                            <a class="menu__item" id="all_img4"  href="#"><i class="fas fa-landmark" ></i> ՊԵՏԱԿԱՆ ՄԱՐՄԻՆՆԵՐ</a>
-                            <a class="menu__item" id="all_img5"  href="#"><i class="fas fa-id-card" ></i> ՀԵՏԱԴԱՐՁ ԿԱՊ</a>
+                            @foreach($menus as $menu)
+                                <a class="menu__item" id="{{'all_img' . $menu->id }}"  href="{{ asset($menu->href) }}"><i class="{{ $menu->icon }}" ></i> {{ $menu->title }}</a>
+                            @endforeach
                         </div>
                         <div class="block_non width_350_0 mytop" id="mytop">
-                            <a class="menu__item" id="my_img1"  href="#"><i class="far fa-newspaper" ></i> ՆՈՐՈՒԹՅՈՒՆՆԵՐ</a>
-                            <a class="menu__item" id="my_img2"  href="#"><i class="fas fa-calendar-alt" ></i> ՄԻՋՈՑԱՌՈՒՄՆԵՐ</a>
-                            <a class="menu__item" id="my_img3"  href="#"><i class="fas fa-id-card" ></i> ՀԵՏԱԴԱՐՁ ԿԱՊ</a>
+                            @if (Auth::check())
+                            @foreach($my_counts as $my_count)
+                                <a class="menu__item" id="{{'my_img' . $my_count->menu->id }}"  href="{{ asset($my_count->menu->href) }}"><i class="{{ $my_count->menu->icon }}" ></i> {{ $my_count->menu->title }}</a>
+                            @endforeach
+                            @else
+                                <a class="menu__item" href="{{ asset('login') }}"><i class="fas fa-user-circle"></i> ԴԵՌ ԳՐԱՆՑՎԱԾ ՉԵՔ ?</a>
+                            @endif
                         </div>
                         <div class="width_350_0">
-                            <a class="menu__item" id="all_img5"  href="#"><i class="fas fa-circle" ></i> ԲՈԼՈՐԸ</a>
+                            <a class="menu__item" href="{{ asset('menu') }}"><i class="fas fa-circle" ></i> ԲՈԼՈՐԸ</a>
                         </div>
                     </div>
                     <div class="col col_6 menu_img block_non_sm block_non_md">
                         <div class="alltopimg" id="alltop_img">
-                            <img id="all_img10" src="{{asset('image/menu/01.jpg')}}" alt="" >
-                            <img class="block_non_xl" id="all_img20" src="{{asset('image/menu/02.jpg')}}" alt="" >
-                            <img class="block_non_xl" id="all_img30" src="{{asset('image/menu/03.jpg')}}" alt="" >
-                            <img class="block_non_xl" id="all_img40" src="{{asset('image/menu/04.jpg')}}" alt="" >
-                            <img class="block_non_xl" id="all_img50" src="{{asset('image/menu/05.jpg')}}" alt="" >
+                            @foreach($menus as $menu)
+                                <img class="block_non_xl" id="{{'all_img' . $menu->id . 'a' }}" src="{{asset('storage/uploads/image/user/menu/' . $menu->image)}}" alt="" >
+                            @endforeach
                         </div>
                         <div class="block_non_xl mytopimg" id="mytop_img">
-                            <img id="my_img10" src="{{asset('image/menu/01.jpg')}}" alt="" >
-                            <img class="block_non_xl" id="my_img20" src="{{asset('image/menu/02.jpg')}}" alt="" >
-                            <img class="block_non_xl" id="my_img30" src="{{asset('image/menu/05.jpg')}}" alt="" >
+                            @if (Auth::check())
+                                @foreach($my_counts as $my_count)
+                                    <img class="block_non_xl" id="{{'my_img' . $my_count->menu->id . 'a' }}" src="{{asset('storage/uploads/image/user/menu/' . $my_count->menu->image)}}" alt="" >
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -102,9 +104,8 @@
 {{--                          menu                --}}
 <div class="wrapper">
     <div class="contents">
-@yield('content')
+        @yield('content')
     </div>
-
 {{--                          FOOTER                --}}
 <footer>
     <div class="clearfix footer_fon_13">
@@ -119,7 +120,7 @@
             <div class="col col_md col_6 col_6_md search">
                 <form class="right_xl">
                     <input type="text" placeholder="Փնտրել...">
-{{--                    <button type="submit"></button>--}}
+                    <button type="submit"></button>
                 </form>
             </div>
         </div>
@@ -127,17 +128,27 @@
     <div class="clearfix footer_fon_2 padding_footer">
         <div class="container container_md center_sm">
             <div class="col col_md col_3 col_6_md">
-                <p>bajanordagrvel</p>
+                <h3>ՄԵՆՔ</h3>
+                <a href="{{ asset('/masisjan') }}"><p class="margin_top_15 color_white">ՊԱՏՄՈՒԹՅՈՒՆ</p></a>
+                <a href="{{ asset('/masisjan') }}"><p class="margin_top_15 color_white">ՆՊԱՏԱԿ</p></a>
+                <a href="{{ asset($menu->href) }}"><p class="margin_top_15 color_white">ՆՎԻՐԱՏՎՈՒԹՅՈՒՆ</p></a>
+                <a href="{{ asset($menu->href) }}"><p class="margin_top_15 color_white">ԳՈՎԱԶԴ</p></a>
+                <a href="{{ asset($menu->href) }}"><p class="margin_top_15 color_white">ԳՈՐԾՆԿԵՐ</p></a>
+                <a href="{{ asset('/masisjan/contact') }}"><p class="margin_top_15 color_white">ԿԱՊ</p></a>
+                <a href="{{ asset($menu->href) }}"><p class="margin_top_15 color_white">ՄԵՐ ՀԱՐԹԱԿՆԵՐԸ</p></a>
             </div>
             <div class="col col_md col_3 col_6_md">
-                <p>Թոփ բաժիններ</p>
+                <h3 class="border_top_sm">ԹՈՓ ԲԱԺԻՆՆԵՐ</h3>
+                @foreach($menus as $menu)
+                    <a href="{{ asset($menu->href) }}"><p class="margin_top_15 color_white">{{ $menu->title }}</p></a>
+                @endforeach
             </div>
             <div class="col col_md col_3 col_6_md">
-                <p>Կարևոր</p>
+                <h3 class="border_top_sm">ԿԱՐԵՎՕՐ</h3>
             </div>
             <div class="col col_md col_3 col_6_md">
                 <div class="center">
-                    <p>Պատահական վայր<br>Մասիսում</p>
+                    <h3 class="border_top_sm">ՊԱՏԱՀԱԿԱՆ ՎԱՅՐ</h3>
                     <a href="{{ route('places.show') }}">
                         <img src="{{asset('image/app/map_masis.png')}}" class="img_map" alt="">
                     </a>
@@ -148,7 +159,7 @@
     <div class="clearfix footer_fon_13">
         <div class="container container_md container_sm clearfix">
             <div class="col col_md col_sm col_6 col_6_sm col_6_md icon_menu">
-                <span><i class="far fa-copyright margin_15_0"></i><span class="block_non_sm">masisjan</span> 2018-2021</span>
+                <span class="color_white"><i class="far fa-copyright margin_15_0"></i><span class="block_non_sm">masisjan</span> 2018-2021</span>
             </div>
             <div class="col col_md col_sm col_6 col_6_sm col_6_md">
                 <a href=""><i class="fas fa-arrow-circle-up icon_top right_xl right_md right_sm"></i></a>

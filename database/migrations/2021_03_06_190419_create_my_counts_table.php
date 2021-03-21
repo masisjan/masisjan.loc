@@ -16,8 +16,10 @@ class CreateMyCountsTable extends Migration
         Schema::create('my_counts', function (Blueprint $table) {
             $table->id();
             $table->string('user_id')->nullable();
-            $table->string('table_name')->nullable();
+            $table->unsignedBigInteger('menu_id');
+            $table->string('count')->nullable()->default(0);
             $table->timestamps();
+            $table->foreign('menu_id')->references('id')->on('menus')->onDelete('cascade');
         });
     }
 

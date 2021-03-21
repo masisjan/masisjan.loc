@@ -21,7 +21,8 @@ class Event extends Model
                             'cord1',
                             'publish',
                             'user_id',
-                            'count'];
+                            'count',
+                            'confirm'];
 
     public function user()
     {

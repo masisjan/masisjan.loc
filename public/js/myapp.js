@@ -71,7 +71,7 @@ function newajax() {
         }
         var params = 'table_id=' + i_table_id.value + '&' + 'id_post=' + i_id_post.value + '&' + 'refresh=1' + '&' + 'rating=' + i_rating + '&' + 'table_name=' + i_table_name.value;
         ajaxPost(params);
-};
+}
 //RETING
 window.addEventListener('load', function(){
     let rating = document.querySelector('#rating');
@@ -108,6 +108,4 @@ function ajaxPost(params){
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     request.send(params);
 }
-
-
 

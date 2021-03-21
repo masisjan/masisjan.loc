@@ -25,6 +25,7 @@ class CreatePostsTable extends Migration
             $table->text('text_video')->nullable();
             $table->text('word')->nullable();
             $table->string('publish')->default('not');
+            $table->string('confirm')->default('not');
             $table->unsignedBigInteger('user_id');
             $table->string('count')->default(0);
             $table->timestamps();

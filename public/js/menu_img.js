@@ -15,7 +15,7 @@ window.onload = function() {
 
     for ( let i = 0; i < alltopa.length; i++) {
         alltopa[i].addEventListener("mouseover", function() {
-            let id = this.id + '0';
+            let id = this.id + 'a';
             let img = document.querySelectorAll(".alltopimg img");
             for (let j = 0; j < img.length; j++) {
                 img[j].style.display = "none";
@@ -39,10 +39,29 @@ window.onload = function() {
 
     for ( let i = 0; i < mytopa.length; i++) {
         mytopa[i].addEventListener("mouseover", function() {
-            let id = this.id + '0';
+            let id = this.id + 'a';
             let img = document.querySelectorAll(".mytopimg img");
             for (let j = 0; j < img.length; j++) {
                 img[j].style.display = "none";
+            }
+            document.getElementById(id).style.display = "block";
+        });
+    }
+//     @ndhanur menu
+    let menusBottom = document.querySelectorAll(".menusBottom div");
+
+    for ( let i = 0; i < menusBottom.length; i++) {
+        menusBottom[i].addEventListener("click", function() {
+            let id = this.id;
+            let Bottom = document.querySelectorAll(".menusBottom p");
+            for (let f = 0; f < Bottom.length; f++) {
+                Bottom[f].style.backgroundColor = "#163f9d"
+            }
+            document.getElementById(id).querySelector("p").style.backgroundColor = "#dea115";
+            id += 'a';
+            let block = document.querySelectorAll(".menus .menu");
+            for (let j = 0; j < block.length; j++) {
+                block[j].style.display = "none";
             }
             document.getElementById(id).style.display = "block";
         });

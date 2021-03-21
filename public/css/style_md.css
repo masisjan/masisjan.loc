@@ -326,10 +326,10 @@
     /*                              top bajinner  */
 
 
-    .div_b_m{
-        border-radius: 15px;
-        border: 2px solid  #dea115;
-    }
+    /*.div_b_m{*/
+    /*    border-radius: 15px;*/
+    /*    border: 2px solid  #dea115;*/
+    /*}*/
 
     .div_b_m p{
         margin: 10px 0;
@@ -790,6 +790,20 @@
 
     .panel {
         display: none;
+    }
+
+    .cucanak {
+        width: 400px;
+        background-color: #daa520;
+        margin: 10px;
+        padding: 15px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #000000;
+        text-transform: uppercase;
+    }
+    .cucanak img{
+        width: 120px;
     }
 
     /*                                  END ADMIN          */

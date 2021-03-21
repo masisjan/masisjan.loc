@@ -19,13 +19,15 @@ class CreateEventsTable extends Migration
             $table->string('image')->nullable();
             $table->string('title')->nullable();
             $table->text('text')->nullable();
-            $table->text('short_text')->nullable();           $table->string('organizer')->nullable();
+            $table->text('short_text')->nullable();
+            $table->string('organizer')->nullable();
             $table->string('date_start')->nullable();
             $table->string('date_end')->nullable();
             $table->string('value')->nullable();
             $table->string('cord0')->nullable();
             $table->string('cord1')->nullable();
             $table->string('publish')->default('not');
+            $table->string('confirm')->default('not');
             $table->unsignedBigInteger('user_id');
             $table->string('count')->default(0);
             $table->timestamps();

@@ -13,7 +13,6 @@ class RatingController extends Controller
 {
     public function show(Request $request)
     {
-
         $user_id = Auth::id();
         $table_id = trim($_POST['table_id']);
         $table_name = trim($_POST['table_name']);

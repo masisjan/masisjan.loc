@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTaxisTable extends Migration
+class CreateServicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateTaxisTable extends Migration
      */
     public function up()
     {
-        Schema::create('taxis', function (Blueprint $table) {
+        Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->string('tab_name')->default(5);
+            $table->string('tab_name')->nullable();
             $table->string('title');
             $table->string('image')->nullable();
             $table->string('director')->nullable();
@@ -26,17 +26,19 @@ class CreateTaxisTable extends Migration
             $table->string('fb')->nullable();
             $table->string('cord0')->nullable();
             $table->string('cord1')->nullable();
-            $table->string('monday')->default('Փակ է');
-            $table->string('tuesday')->default('Փակ է');
-            $table->string('wednesday')->default('Փակ է');
-            $table->string('thursday')->default('Փակ է');
-            $table->string('friday')->default('Փակ է');
-            $table->string('saturday')->default('Փակ է');
-            $table->string('sunday')->default('Փակ է');
+            $table->string('monday')->nullable()->default('Փակ է');
+            $table->string('tuesday')->nullable()->default('Փակ է');
+            $table->string('wednesday')->nullable()->default('Փակ է');
+            $table->string('thursday')->nullable()->default('Փակ է');
+            $table->string('friday')->nullable()->default('Փակ է');
+            $table->string('saturday')->nullable()->default('Փակ է');
+            $table->string('sunday')->nullable()->default('Փակ է');
             $table->text('text')->nullable();
             $table->string('publish')->default('not');
+            $table->string('confirm')->default('not');
             $table->string('count')->default(0);
             $table->string('rating')->nullable();
+            $table->string('qr_cod')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
@@ -51,6 +53,6 @@ class CreateTaxisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('taxis');
+        Schema::dropIfExists('services');
     }
 }

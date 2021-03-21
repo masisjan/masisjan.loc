@@ -19,7 +19,7 @@ class CreateMenusTable extends Migration
             $table->string('image');
             $table->string('icon');
             $table->string('text')->nullable();
-            $table->string('href');
+            $table->string('href')->nullable();
             $table->string('count')->default('0');
             $table->string('category_id');
             $table->string('table_id');

@@ -1,7 +1,12 @@
 @extends('layouts.user')
 @section('title', 'Contact App | Add new contact')
 @section('content')
-
+    <div class="col col_6 col_md col_6_md">
+        <p class="p_post">Հրապարակված՝ {{ $bank->publish }}</p>
+    </div>
+    <div class="col col_6 col_md col_6_md">
+        <p class="p_post">Հաստատված՝ {{ $bank->publish }}</p>
+    </div><hr>
     <div>
         <h1 class="p_h1 ">{{ $bank->title }}</h1>
         <div class="p_date_count">
@@ -11,7 +16,7 @@
         @if($bank->image)
             <img src="{{ asset('storage/uploads/image/banks/'. $bank->image) }}" class="input-container" alt="">
         @else
-            <img src="{{ asset('image/app/default-bank.jpg') }}" class="input-container" alt="">
+            <img src="{{ asset('image/app/default-post.jpg') }}" class="input-container" alt="">
         @endif
         <div class="icon_footer">
             <a href=""><i class="fab fa-facebook-f"></i></a>
@@ -54,15 +59,14 @@
         </div>
     </div>
     <hr>
-    <div class="col-md-9 offset-md-3 margin_15_0">
-        <a href="{{ route('users.banks.edit', $bank->id) }}" class="btn btn-info button1 button1_text bg_edit">Edit</a>
-        <a href="{{ route('users.banks.destroy', $bank->id) }}" class="btn btn-delete btn-outline-danger button1 button1_text bg_delete">Delete</a>
-        <a href=" {{ route('users.banks.index') }} " class="btn btn-outline-secondary button1 button1_text bg_cancel">Cancel</a>
+    <div class="col-md-9 offset-md-3 margin_15_0 padding_b_5">
+        <a href="{{ route('users.banks.edit', $bank->id) }}" class="btn btn-info button1 button1_text bg_edit">Խմբագրել</a>
+        <a href="{{ route('users.banks.destroy', $bank->id) }}" class="btn btn-delete btn-outline-danger button1 button1_text bg_delete">Հեռացնել</a>
+        <a href=" {{ route('users.banks.index') }} " class="btn btn-outline-secondary button1 button1_text bg_cancel">Չեղարկել</a>
     </div>
     <div class="block_non">
         <p class="cord0">{{ $bank->cord0 }}</p>
         <p class="cord1">{{ $bank->cord1 }}</p>
     </div>
     <script src=" {{ asset('js/map.js') }} "></script>
-
 @endsection

@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+//HOME
 Route::get('/', "App\Http\Controllers\HomeController@index")->name('index');
+Route::get('/menu', "App\Http\Controllers\HomeController@menu")->name('menu');
 //Rating
 Route::post('/rating', "App\Http\Controllers\RatingController@show")->name('rating.show');
 //NEWS
@@ -22,7 +23,7 @@ Route::get('/news/{id}', "App\Http\Controllers\PostController@news_show")->name(
 //EVENTS
 Route::get('/events', "App\Http\Controllers\EventController@events")->name('events');
 Route::get('/events/{id}', "App\Http\Controllers\EventController@events_show")->name('events.show');
-//ELIGHTS
+//FLIGHTS
 Route::get('/flights', "App\Http\Controllers\FlightController@flights")->name('flights');
 Route::get('/flights/{id}', "App\Http\Controllers\FlightController@flights_show")->name('flights.show');
 //BANKS
@@ -31,14 +32,25 @@ Route::get('/banks/{id}', "App\Http\Controllers\BankController@banks_show")->nam
 //TAXIS
 Route::get('/taxis', "App\Http\Controllers\TaxiController@taxis")->name('taxis');
 Route::get('/taxis/{id}', "App\Http\Controllers\TaxiController@taxis_show")->name('taxis.show');
+//PHARMACIES
+Route::get('/pharmacies', "App\Http\Controllers\PharmacyController@pharmacies")->name('pharmacies');
+Route::get('/pharmacies/{id}', "App\Http\Controllers\PharmacyController@pharmacies_show")->name('pharmacies.show');
+//PARTIES
+Route::get('/parties', "App\Http\Controllers\PartyController@parties")->name('parties');
+Route::get('/parties/{id}', "App\Http\Controllers\PartyController@parties_show")->name('parties.show');
+//FOODS
+Route::get('/foods', "App\Http\Controllers\FoodController@foods")->name('foods');
+Route::get('/foods/{id}', "App\Http\Controllers\FoodController@foods_show")->name('foods.show');
+//MASISJAN
+Route::get('/masisjan', function () { return view('all.masisjan.masisjan');})->name('masisjan');
+Route::get('/masisjan/contact', function () { return view('all.masisjan.contact');})->name('masisjan.contact');
 //RANDOM
 Route::get('/places', "App\Http\Controllers\PlaceController@places_show")->name('places.show');
+//EMAIL
+Route::get('/email', 'App\Http\Controllers\MailController@create');
+Route::post('/email/tablichka', 'App\Http\Controllers\MailController@tablichkaEmail')->name('tablichka.email');
 
 Route::group( ["middleware" => ["auth", "verified"]], function() {
-
-//    Route::get('/dashboard', function () {
-//        return view('dashboard');
-//    })->middleware(['auth'])->name('dashboard');
 
     Route::redirect('/dashboard', '/users');
 
@@ -133,6 +145,34 @@ Route::group( ["middleware" => ["auth", "verified"]], function() {
         Route::delete('/taxis/{id}', "App\Http\Controllers\TaxiController@destroy")->name('users.taxis.destroy');
         Route::put('/taxis/{id}', "App\Http\Controllers\TaxiController@update")->name('users.taxis.update');
         Route::get('/taxis/{id}/edit', "App\Http\Controllers\TaxiController@edit")->name('users.taxis.edit');
+
+        Route::get('/pharmacies', "App\Http\Controllers\PharmacyController@index")->name('users.pharmacies.index');
+        Route::post('/pharmacies', "App\Http\Controllers\PharmacyController@store")->name('users.pharmacies.store');
+        Route::get('/pharmacies/create', "App\Http\Controllers\PharmacyController@create")->name('users.pharmacies.create');
+        Route::get('/pharmacies/{id}', "App\Http\Controllers\PharmacyController@show")->name('users.pharmacies.show');
+        Route::delete('/pharmacies/{id}', "App\Http\Controllers\PharmacyController@destroy")->name('users.pharmacies.destroy');
+        Route::put('/pharmacies/{id}', "App\Http\Controllers\PharmacyController@update")->name('users.pharmacies.update');
+        Route::get('/pharmacies/{id}/edit', "App\Http\Controllers\PharmacyController@edit")->name('users.pharmacies.edit');
+
+        Route::get('/parties', "App\Http\Controllers\PartyController@index")->name('users.parties.index');
+        Route::post('/parties', "App\Http\Controllers\PartyController@store")->name('users.parties.store');
+        Route::get('/parties/create', "App\Http\Controllers\PartyController@create")->name('users.parties.create');
+        Route::get('/parties/{id}', "App\Http\Controllers\PartyController@show")->name('users.parties.show');
+        Route::delete('/parties/{id}', "App\Http\Controllers\PartyController@destroy")->name('users.parties.destroy');
+        Route::put('/parties/{id}', "App\Http\Controllers\PartyController@update")->name('users.parties.update');
+        Route::get('/parties/{id}/edit', "App\Http\Controllers\PartyController@edit")->name('users.parties.edit');
+
+        Route::get('/foods', "App\Http\Controllers\FoodController@index")->name('users.foods.index');
+        Route::post('/foods', "App\Http\Controllers\FoodController@store")->name('users.foods.store');
+        Route::get('/foods/create', "App\Http\Controllers\FoodController@create")->name('users.foods.create');
+        Route::get('/foods/{id}', "App\Http\Controllers\FoodController@show")->name('users.foods.show');
+        Route::delete('/foods/{id}', "App\Http\Controllers\FoodController@destroy")->name('users.foods.destroy');
+        Route::put('/foods/{id}', "App\Http\Controllers\FoodController@update")->name('users.foods.update');
+        Route::get('/foods/{id}/edit', "App\Http\Controllers\FoodController@edit")->name('users.foods.edit');
+
+//        Route::group( ["middleware" => ["admin", "auth", "verified"]], function() {
+//
+//        });
 
     });
 

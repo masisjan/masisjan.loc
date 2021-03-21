@@ -5,16 +5,44 @@ body {
 .block_non{
     display: none;
 }
+
+.inline_block {
+    display: inline-block;
+}
+
 .b_r {
     border-radius: 50px;
+}
+
+.fon_about {
+    background-image: url("../image/app/21264864.jpg");
 }
 
 .bg_nitral {
     background-color: #dfe1e9;
 }
 
+.color_white {
+    color: #ffffff;
+}
+
 .padding_all {
     padding: 15px;
+}
+
+.margin_top_15 {
+    margin-top: 15px;
+}
+.margin_all {
+    margin: 15px;
+}
+
+.padding_30_0 {
+    padding: 30px 0;
+}
+
+.padding_all_50 {
+    padding: 50px;
 }
 
 #rating button, button:active, button:focus {
@@ -68,8 +96,42 @@ body {
     background-color: rgba(120,120,120,0.7);
 }
 
+.divrandcolor {
+    width: 100%;
+    height: 120px;
+}
+.float_left {
+    float: left;
+}
+
+.bg_rgba_grey {
+    background-color: rgba(233, 223, 223, 0.85);
+}
+
+.color_green {
+    color: green;
+}
+
 .logo_place {
     position: absolute;
     top: 25px;
     left: 25px;
+}
+
+.margin_250_15 {
+    margin: 250px 15px;
+}
+
+.menus > .menu {
+    display: none;
+    padding-top: 25px;
+    padding-bottom: 50px;
+}
+
+.padding_b_5 {
+    padding-bottom: 50px;
+}
+
+.alltopimg > img:first-child, .mytopimg > img:first-child, .menus > .menu:first-child{
+    display: block;
 }

@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="bg_k2 text_houm_tu center">
-        <p>Update word</p>
+        <p>Խմբագրել խոսքը</p>
     </div>
     <div><br>
         <form action="{{ route('users.words.update', $word->id) }}" method="POST" enctype="multipart/form-data">

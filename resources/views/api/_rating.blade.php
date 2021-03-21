@@ -1,7 +1,7 @@
 <div class="icon_rating height_50">
     <span class="icon_footer col col_md col_sm" id="rating_name"><i class="fas circle">{{ $table_rating ?? 0 }}</i></span>
     <form action="{{ route('rating.show') }}" method="POST" enctype="multipart/form-data" id="rating">
-        <button type="button" class="icon_footer col col_md col_sm block_non r_button" id="send"><i class="fas circle">ok</i></button>
+        <button type="button" class="icon_footer col col_md col_sm block_non r_button" id="send"><i class="fas circle">go!</i></button>
         <input type="radio" value="1" name="rating" id="r1">
         <label for="r1"><i class="fas fa-star"></i></label>
         <input type="radio" value="2" name="rating" id="r2">

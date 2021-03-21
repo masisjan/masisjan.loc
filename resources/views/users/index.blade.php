@@ -2,45 +2,60 @@
 @section('title', 'Contact App | All contacts')
 @section('content')
 
+
     <script type="text/javascript">
-        ymaps.ready(init);
-        var myMap;
+        function init() {
+            // Задаём точки мультимаршрута.
+            var pointA = [55.749, 37.524],
+                pointB = [55.739625, 37.54120],
+                /**
+                 * Создаем мультимаршрут.
+                 * @see https://api.yandex.ru/maps/doc/jsapi/2.1/ref/reference/multiRouter.MultiRoute.xml
+                 */
+                multiRoute = new ymaps.multiRouter.MultiRoute({
+                    referencePoints: [
+                        pointA,
+                        pointB
+                    ],
+                    params: {
+                        //Тип маршрутизации - пешеходная маршрутизация.
+                        routingMode: 'pedestrian'
+                    }
+                }, {
+                    // Автоматически устанавливать границы карты так, чтобы маршрут был виден целиком.
+                    boundsAutoApply: true
+                });
 
-        function init () {
-            myMap = new ymaps.Map("map", {
-                center: [40.0650, 44.4367],
-                zoom: 13
+            // Создаем кнопку.
+            var changePointsButton = new ymaps.control.Button({
+                data: {content: "Поменять местами точки А и В"},
+                options: {selectOnClick: true}
+            });
+
+            // Объявляем обработчики для кнопки.
+            changePointsButton.events.add('select', function () {
+                multiRoute.model.setReferencePoints([pointB, pointA]);
+            });
+
+            changePointsButton.events.add('deselect', function () {
+                multiRoute.model.setReferencePoints([pointA, pointB]);
+            });
+
+            // Создаем карту с добавленной на нее кнопкой.
+            var myMap = new ymaps.Map('map', {
+                center: [55.739625, 37.54120],
+                zoom: 12,
+                controls: [changePointsButton]
             }, {
-                balloonMaxWidth: 200,
-                searchControlProvider: 'yandex#search'
+                buttonMaxWidth: 300
             });
 
-            // Обработка события, возникающего при щелчке
-            // левой кнопкой мыши в любой точке карты.
-            // При возникновении такого события откроем балун.
-            myMap.events.add('click', function (e) {
-                if (!myMap.balloon.isOpen()) {
-                    var coords = e.get('coords');
-                    document.getElementById('cord0').innerHTML = coords[0].toPrecision(6);
-                    document.getElementById("cord1").innerHTML = coords[1].toPrecision(6);
-                    myMap.balloon.open(coords, {
-                        contentBody:'<p>Кто-то щелкнул по карте.</p>' +
-                            '<p>Координаты щелчка: ' + [
-                                coords[0].toPrecision(6),
-                                coords[1].toPrecision(6)
-                            ].join(', ') + '</p>',
-                        contentFooter:'<sup>Щелкните еще раз</sup>'
-                    });
-                }
-                else {
-                    myMap.balloon.close();
-                }
-            });
+            // Добавляем мультимаршрут на карту.
+            myMap.geoObjects.add(multiRoute);
         }
-    </script>
+
+        ymaps.ready(init);
+        </script>
 <div id="map" style="width: 640px; height: 500px"></div>
-    <p>Координаты щелчка: </p>
-    <p id="cord0"></p>
-    <p id="cord1"></p>
 
 @endsection

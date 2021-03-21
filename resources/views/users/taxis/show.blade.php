@@ -11,7 +11,7 @@
         @if($taxi->image)
             <img src="{{ asset('storage/uploads/image/taxis/'. $taxi->image) }}" class="input-container" alt="">
         @else
-            <img src="{{ asset('image/app/default-taxi.jpg') }}" class="input-container" alt="">
+            <img src="{{ asset('image/app/default-post.jpg') }}" class="input-container" alt="">
         @endif
         <div class="icon_footer">
             <a href=""><i class="fab fa-facebook-f"></i></a>
@@ -59,6 +59,28 @@
         <a href="{{ route('users.taxis.destroy', $taxi->id) }}" class="btn btn-delete btn-outline-danger button1 button1_text bg_delete">Delete</a>
         <a href=" {{ route('users.taxis.index') }} " class="btn btn-outline-secondary button1 button1_text bg_cancel">Cancel</a>
     </div>
+    <hr>
+    @include('api._cucanak')
+    <form action="{{ route('tablichka.email') }}" method="post">
+        @csrf
+        <input type="hidden" value="{{ asset('storage/uploads/image/qr/'. $taxi->qr_cod) }}" name="image_qr">
+        <input type="hidden" value="{{ $taxi->title }}" name="title">
+        <span>Պատվիրել ցուցանակը Գիլոյան ընկերությունում ? &ensp; </span><button type="submit" class="button1 button1_text">OK</button>
+    </form>
+    @if(session()->has('message'))
+        <div class="color_green">
+            {{ session()->get('message') }}
+        </div>
+    @endif
+    <div class="clearfix cucanak">
+        <div class="col col_5 col_md col_5_md col_sm col_4_sm">
+            <img src="{{ asset('storage/uploads/image/qr/'. $taxi->qr_cod) }}" alt="image format png" />
+        </div>
+        <div class="col col_7 col_md col_7_md col_sm col_8_sm">
+            <p>{{ $taxi->title }}</p>
+        </div>
+    </div>
+    <hr>
     <div class="block_non">
         <p class="cord0">{{ $taxi->cord0 }}</p>
         <p class="cord1">{{ $taxi->cord1 }}</p>
