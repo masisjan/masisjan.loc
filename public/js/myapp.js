@@ -1,5 +1,3 @@
-
-
 //ORER JAMER
 var dey = document.querySelectorAll(".dey div");
 var d = new Date();
@@ -108,4 +106,3 @@ function ajaxPost(params){
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     request.send(params);
 }
-

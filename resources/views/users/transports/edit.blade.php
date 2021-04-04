@@ -3,13 +3,13 @@
 @section('content')
 
     <div class="bg_k2 text_houm_tu center">
-        <p>Խմբագրել</p>
+        <p>Փոփոխել երթուղայինը</p>
     </div>
     <div><br>
-        <form onsubmit='return formValidation()' name='val' action="{{ route('users.banks.update', $bank->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('users.transports.update', $transport->id) }}" method="POST" enctype="multipart/form-data">
             @method('PUT')
             @csrf
-            @include('users.banks._form')
+            @include('users.transports._form')
         </form>
     </div>
 

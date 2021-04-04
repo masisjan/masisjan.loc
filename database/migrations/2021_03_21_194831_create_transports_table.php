@@ -15,6 +15,7 @@ class CreateTransportsTable extends Migration
     {
         Schema::create('transports', function (Blueprint $table) {
             $table->id();
+            $table->string('tab_name')->default(11);
             $table->string('title1')->nullable();
             $table->string('title2')->nullable();
             $table->string('number')->nullable();
@@ -22,6 +23,7 @@ class CreateTransportsTable extends Migration
             $table->string('time')->nullable();
             $table->string('map')->nullable();
             $table->string('text')->nullable();
+            $table->string('publish')->default('not');
             $table->timestamps();
         });
     }

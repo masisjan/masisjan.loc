@@ -25,6 +25,12 @@ body {
 .color_white {
     color: #ffffff;
 }
+.color_bord {
+    color: #8d0b0b;
+    font-size: 14px;
+    font-weight: 600;
+}
+
 
 .padding_all {
     padding: 15px;
@@ -110,6 +116,11 @@ body {
 
 .color_green {
     color: green;
+}
+
+.c_red {
+    color: #de7315;
+    font-weight: 800;
 }
 
 .logo_place {

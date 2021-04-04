@@ -6,7 +6,7 @@
         <p>Update event</p>
     </div>
     <div><br>
-        <form action="{{ route('users.events.update', $event->id) }}" method="POST" enctype="multipart/form-data">
+        <form onsubmit='return formValidation()' name='val' action="{{ route('users.events.update', $event->id) }}" method="POST" enctype="multipart/form-data">
             @method('PUT')
             @csrf
             @include('users.events._form')

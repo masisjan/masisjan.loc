@@ -6,7 +6,7 @@
         <p>Update news</p>
     </div>
     <div><br>
-        <form action="{{ route('users.posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
+        <form onsubmit='return formValidation()' name='val' action="{{ route('users.posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
             @method('PUT')
             @csrf
             @include('users.posts._form')

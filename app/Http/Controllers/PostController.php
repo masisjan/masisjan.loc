@@ -33,8 +33,8 @@ class PostController extends Controller
 
         $request->validate([
             'image'       => 'mimes:jpeg,png,jpg|max:2048',
-            'title'       => 'required|max:120',
-            'text'        => 'nullable|min:99',
+            'title'       => 'required|min:5|max:120',
+            'text'        => 'nullable|min:30',
             'word'        => 'nullable|min:10|max:150',
             'images'      => 'array|max:2',
             'images.*'    => 'mimes:jpeg,png,jpg|max:2048',

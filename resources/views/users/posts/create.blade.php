@@ -6,7 +6,7 @@
            <p>Add New news</p>
       </div>
       <div><br>
-           <form action="{{ route('users.posts.store') }}" method="POST" enctype="multipart/form-data">
+           <form onsubmit='return formValidation()' name='val' action="{{ route('users.posts.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @include('users.posts._form')
            </form>

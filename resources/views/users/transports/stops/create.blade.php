@@ -3,12 +3,12 @@
 @section('content')
 
       <div class="bg_k2 text_houm_tu center">
-           <p>Add New event</p>
+           <p>Ավելացնել երթուղային</p>
       </div>
       <div><br>
-           <form onsubmit='return formValidation()' name='val' action="{{ route('users.events.store') }}" method="POST" enctype="multipart/form-data">
+           <form action="{{ route('users.transports.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                @include('users.events._form')
+                @include('users.transports._form')
            </form>
       </div>
 

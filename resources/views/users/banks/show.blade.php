@@ -59,11 +59,34 @@
         </div>
     </div>
     <hr>
-    <div class="col-md-9 offset-md-3 margin_15_0 padding_b_5">
+    <div class="col-md-9 offset-md-3 margin_15_0">
         <a href="{{ route('users.banks.edit', $bank->id) }}" class="btn btn-info button1 button1_text bg_edit">Խմբագրել</a>
         <a href="{{ route('users.banks.destroy', $bank->id) }}" class="btn btn-delete btn-outline-danger button1 button1_text bg_delete">Հեռացնել</a>
         <a href=" {{ route('users.banks.index') }} " class="btn btn-outline-secondary button1 button1_text bg_cancel">Չեղարկել</a>
     </div>
+    @if($bank->qr_cod != null)
+        @include('api._cucanak')
+        <form action="{{ route('tablichka.email') }}" method="post">
+            @csrf
+            <input type="hidden" value="{{ asset('storage/uploads/image/qr/'. $bank->qr_cod) }}" name="image_qr">
+            <input type="hidden" value="{{ $bank->title }}" name="title">
+            <span>Պատվիրել ցուցանակը Գիլոյան ընկերությունում ? &ensp; </span><button type="submit" class="button1 button1_text">OK</button>
+        </form>
+        @if(session()->has('message'))
+            <div class="color_green">
+                {{ session()->get('message') }}
+            </div>
+        @endif
+        <div class="clearfix cucanak">
+            <div class="col col_5 col_md col_5_md col_sm col_4_sm">
+                <img src="{{ asset('storage/uploads/image/qr/'. $bank->qr_cod) }}" alt="image format png" />
+            </div>
+            <div class="col col_7 col_md col_7_md col_sm col_8_sm">
+                <p>{{ $bank->title }}</p>
+            </div>
+        </div>
+        <hr>
+    @endif
     <div class="block_non">
         <p class="cord0">{{ $bank->cord0 }}</p>
         <p class="cord1">{{ $bank->cord1 }}</p>

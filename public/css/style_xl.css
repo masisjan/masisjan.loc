@@ -161,10 +161,6 @@
         background-color: #163f9d;
     }
 
-    .c_red {
-        color: red;
-    }
-
     /* END COLOR*/
     /* IMJ */
     .houm_img {
@@ -787,11 +783,12 @@
     .input-container input, textarea {
         width: 70%;
         padding: 10px;
+        margin-bottom: 15px;
         outline: none;
     }
 
     .input-container input:focus {
-        border: 2px solid #163f9d;
+        border: 2px solid #de7315;
     }
 
     .bg_save {

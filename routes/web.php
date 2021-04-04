@@ -23,24 +23,12 @@ Route::get('/news/{id}', "App\Http\Controllers\PostController@news_show")->name(
 //EVENTS
 Route::get('/events', "App\Http\Controllers\EventController@events")->name('events');
 Route::get('/events/{id}', "App\Http\Controllers\EventController@events_show")->name('events.show');
-//FLIGHTS
-Route::get('/flights', "App\Http\Controllers\FlightController@flights")->name('flights');
-Route::get('/flights/{id}', "App\Http\Controllers\FlightController@flights_show")->name('flights.show');
 //BANKS
 Route::get('/banks', "App\Http\Controllers\BankController@banks")->name('banks');
 Route::get('/banks/{id}', "App\Http\Controllers\BankController@banks_show")->name('banks.show');
-//TAXIS
-Route::get('/taxis', "App\Http\Controllers\TaxiController@taxis")->name('taxis');
-Route::get('/taxis/{id}', "App\Http\Controllers\TaxiController@taxis_show")->name('taxis.show');
-//PHARMACIES
-Route::get('/pharmacies', "App\Http\Controllers\PharmacyController@pharmacies")->name('pharmacies');
-Route::get('/pharmacies/{id}', "App\Http\Controllers\PharmacyController@pharmacies_show")->name('pharmacies.show');
-//PARTIES
-Route::get('/parties', "App\Http\Controllers\PartyController@parties")->name('parties');
-Route::get('/parties/{id}', "App\Http\Controllers\PartyController@parties_show")->name('parties.show');
-//FOODS
-Route::get('/foods', "App\Http\Controllers\FoodController@foods")->name('foods');
-Route::get('/foods/{id}', "App\Http\Controllers\FoodController@foods_show")->name('foods.show');
+//SERVICES
+Route::get('/services', "App\Http\Controllers\ServiceController@services")->name('services');
+Route::get('/services/{id}', "App\Http\Controllers\ServiceController@services_show")->name('services.show');
 //MASISJAN
 Route::get('/masisjan', function () { return view('all.masisjan.masisjan');})->name('masisjan');
 Route::get('/masisjan/contact', function () { return view('all.masisjan.contact');})->name('masisjan.contact');
@@ -122,14 +110,6 @@ Route::group( ["middleware" => ["auth", "verified"]], function() {
         Route::put('/money/{id}', "App\Http\Controllers\MoneyController@update")->name('users.money.update');
         Route::get('/money/{id}/edit', "App\Http\Controllers\MoneyController@edit")->name('users.money.edit');
 
-        Route::get('/flights', "App\Http\Controllers\FlightController@index")->name('users.flights.index');
-        Route::post('/flights', "App\Http\Controllers\FlightController@store")->name('users.flights.store');
-        Route::get('/flights/create', "App\Http\Controllers\FlightController@create")->name('users.flights.create');
-        Route::get('/flights/{id}', "App\Http\Controllers\FlightController@show")->name('users.flights.show');
-        Route::delete('/flights/{id}', "App\Http\Controllers\FlightController@destroy")->name('users.flights.destroy');
-        Route::put('/flights/{id}', "App\Http\Controllers\FlightController@update")->name('users.flights.update');
-        Route::get('/flights/{id}/edit', "App\Http\Controllers\FlightController@edit")->name('users.flights.edit');
-
         Route::get('/banks', "App\Http\Controllers\BankController@index")->name('users.banks.index');
         Route::post('/banks', "App\Http\Controllers\BankController@store")->name('users.banks.store');
         Route::get('/banks/create', "App\Http\Controllers\BankController@create")->name('users.banks.create');
@@ -138,37 +118,21 @@ Route::group( ["middleware" => ["auth", "verified"]], function() {
         Route::put('/banks/{id}', "App\Http\Controllers\BankController@update")->name('users.banks.update');
         Route::get('/banks/{id}/edit', "App\Http\Controllers\BankController@edit")->name('users.banks.edit');
 
-        Route::get('/taxis', "App\Http\Controllers\TaxiController@index")->name('users.taxis.index');
-        Route::post('/taxis', "App\Http\Controllers\TaxiController@store")->name('users.taxis.store');
-        Route::get('/taxis/create', "App\Http\Controllers\TaxiController@create")->name('users.taxis.create');
-        Route::get('/taxis/{id}', "App\Http\Controllers\TaxiController@show")->name('users.taxis.show');
-        Route::delete('/taxis/{id}', "App\Http\Controllers\TaxiController@destroy")->name('users.taxis.destroy');
-        Route::put('/taxis/{id}', "App\Http\Controllers\TaxiController@update")->name('users.taxis.update');
-        Route::get('/taxis/{id}/edit', "App\Http\Controllers\TaxiController@edit")->name('users.taxis.edit');
+        Route::get('/services', "App\Http\Controllers\ServiceController@index")->name('users.services.index');
+        Route::post('/services', "App\Http\Controllers\ServiceController@store")->name('users.services.store');
+        Route::get('/services/create', "App\Http\Controllers\ServiceController@create")->name('users.services.create');
+        Route::get('/services/{id}', "App\Http\Controllers\ServiceController@show")->name('users.services.show');
+        Route::delete('/services/{id}', "App\Http\Controllers\ServiceController@destroy")->name('users.services.destroy');
+        Route::put('/services/{id}', "App\Http\Controllers\ServiceController@update")->name('users.services.update');
+        Route::get('/services/{id}/edit', "App\Http\Controllers\ServiceController@edit")->name('users.services.edit');
 
-        Route::get('/pharmacies', "App\Http\Controllers\PharmacyController@index")->name('users.pharmacies.index');
-        Route::post('/pharmacies', "App\Http\Controllers\PharmacyController@store")->name('users.pharmacies.store');
-        Route::get('/pharmacies/create', "App\Http\Controllers\PharmacyController@create")->name('users.pharmacies.create');
-        Route::get('/pharmacies/{id}', "App\Http\Controllers\PharmacyController@show")->name('users.pharmacies.show');
-        Route::delete('/pharmacies/{id}', "App\Http\Controllers\PharmacyController@destroy")->name('users.pharmacies.destroy');
-        Route::put('/pharmacies/{id}', "App\Http\Controllers\PharmacyController@update")->name('users.pharmacies.update');
-        Route::get('/pharmacies/{id}/edit', "App\Http\Controllers\PharmacyController@edit")->name('users.pharmacies.edit');
-
-        Route::get('/parties', "App\Http\Controllers\PartyController@index")->name('users.parties.index');
-        Route::post('/parties', "App\Http\Controllers\PartyController@store")->name('users.parties.store');
-        Route::get('/parties/create', "App\Http\Controllers\PartyController@create")->name('users.parties.create');
-        Route::get('/parties/{id}', "App\Http\Controllers\PartyController@show")->name('users.parties.show');
-        Route::delete('/parties/{id}', "App\Http\Controllers\PartyController@destroy")->name('users.parties.destroy');
-        Route::put('/parties/{id}', "App\Http\Controllers\PartyController@update")->name('users.parties.update');
-        Route::get('/parties/{id}/edit', "App\Http\Controllers\PartyController@edit")->name('users.parties.edit');
-
-        Route::get('/foods', "App\Http\Controllers\FoodController@index")->name('users.foods.index');
-        Route::post('/foods', "App\Http\Controllers\FoodController@store")->name('users.foods.store');
-        Route::get('/foods/create', "App\Http\Controllers\FoodController@create")->name('users.foods.create');
-        Route::get('/foods/{id}', "App\Http\Controllers\FoodController@show")->name('users.foods.show');
-        Route::delete('/foods/{id}', "App\Http\Controllers\FoodController@destroy")->name('users.foods.destroy');
-        Route::put('/foods/{id}', "App\Http\Controllers\FoodController@update")->name('users.foods.update');
-        Route::get('/foods/{id}/edit', "App\Http\Controllers\FoodController@edit")->name('users.foods.edit');
+        Route::get('/transports', "App\Http\Controllers\TransportController@index")->name('users.transports.index');
+        Route::post('/transports', "App\Http\Controllers\TransportController@store")->name('users.transports.store');
+        Route::get('/transports/create', "App\Http\Controllers\TransportController@create")->name('users.transports.create');
+        Route::get('/transports/{id}', "App\Http\Controllers\TransportController@show")->name('users.transports.show');
+        Route::delete('/transports/{id}', "App\Http\Controllers\TransportController@destroy")->name('users.transports.destroy');
+        Route::put('/transports/{id}', "App\Http\Controllers\TransportController@update")->name('users.transports.update');
+        Route::get('/transports/{id}/edit', "App\Http\Controllers\TransportController@edit")->name('users.transports.edit');
 
 //        Route::group( ["middleware" => ["admin", "auth", "verified"]], function() {
 //

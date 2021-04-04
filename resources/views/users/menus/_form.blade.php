@@ -55,7 +55,7 @@
 
     <div class="input-container">
         <p>Table id</p>
-        <input type="text" name="table_id" value="{{ old('table_id', $menu->href) }}" id="table_id" class="form-control @error('table_id') is-invalid @enderror">
+        <input type="text" name="table_id" value="{{ old('table_id', $menu->table_id) }}" id="table_id" class="form-control @error('table_id') is-invalid @enderror">
         @error('table_id')
         <div class="invalid-feedback">
             {{ $message }}

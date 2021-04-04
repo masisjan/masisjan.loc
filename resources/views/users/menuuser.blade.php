@@ -10,7 +10,7 @@
                 <a class="menu__item " href="{{ route('users.places.index') }}"><i class="fas fa-map-marker-alt"></i> ՎԱՅՐԵՐ</a>
             </div>
         <a class="menu__item " href="{{ route('users.ads.index') }}"><i class="fas fa-ad"></i> ԳՈՎԱԶԴ</a>
-        <a class="menu__item " href="{{ route('users.all') }}"><i class="fas fa-circle" ></i> ԲՈԼՈՐԸ</a>
+        <a class="menu__item " href="{{ route('users.all') }}"><i class="fas fa-plus-circle"></i> ԱՎԵԼԱՑՆԵԼ</a>
         <a class="menu__item accordion " href="#"><i class="fas fa-address-card" ></i> ԱՆՁՆԱԿԱՆ ԷՋ</a>
             <div class="margin_left_3 panel content">
                 <a class="menu__item btn-logout" href="{{ route('logout', Auth::id()) }}"><i class="fas fa-sign-out-alt" ></i> ԴՈՒՐՍ ԳԱԼ</a>

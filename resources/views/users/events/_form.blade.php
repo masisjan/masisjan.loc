@@ -20,6 +20,7 @@
     <div class="input-container">
         <p>Վերնագիր</p>
         <input type="text" name="title" value="{{ old('title', $event->title) }}" class="form-control @error('title') is-invalid @enderror">
+        <p class="c_red" id="title_val"></p>
         @error('title')
             <div class="c_red">
                {{ $message }}
@@ -31,6 +32,7 @@
         <p>Տեքստ</p>
         <pre><textarea type="text" name="text" class="form-control @error('text') is-invalid @enderror" rows="13">{{ old('text', $event->text) }}</textarea>
         </pre>
+        <p class="c_red" id="text_val"></p>
         @error('text')
         <div class="c_red">
             {{ $message }}
@@ -39,6 +41,7 @@
     </div>
 
     <div class="input-container">
+        <p>Քարտեզի վրա նշել միջոցառման վայրը</p><br>
         <div id="map" style="height: 500px"></div>
         <input type="hidden" id="cord0" name="cord0" value="{{ old('cord0', $event->cord0) }}">
         <input type="hidden" id="cord1" name="cord1" value="{{ old('cord1', $event->cord1) }}">

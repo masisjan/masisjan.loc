@@ -160,10 +160,6 @@
         background-color: #163f9d;
     }
 
-    .c_red {
-        color: red;
-    }
-
     /* END COLOR*/
 
     /* IMJ */
@@ -776,6 +772,7 @@
     .input-container input, textarea {
         width: 90%;
         padding: 10px;
+        margin-bottom: 15px;
         outline: none;
     }
 

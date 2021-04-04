@@ -6,7 +6,7 @@
            <p>Ավելացնել նոր բանկ</p>
       </div>
       <div><br>
-           <form action="{{ route('users.banks.store') }}" method="POST" enctype="multipart/form-data">
+           <form onsubmit='return formValidation()' name='val' action="{{ route('users.banks.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @include('users.banks._form')
            </form>

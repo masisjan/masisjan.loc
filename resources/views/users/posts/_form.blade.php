@@ -19,6 +19,7 @@
 <div class="input-container">
     <p>Վերնագիր</p>
     <input type="text" name="title" value="{{ old('title', $post->title) }}" class="form-control @error('title') is-invalid @enderror">
+    <p class="c_red" id="title_val"></p>
     @error('title')
         <div class="c_red">
            {{ $message }}
@@ -30,6 +31,7 @@
     <p>Տեքստ</p>
     <pre><textarea type="text" name="text" class="form-control @error('text') is-invalid @enderror" rows="13">{{ old('text', $post->text) }}</textarea>
     </pre>
+    <p class="c_red" id="text_val"></p>
     @error('text')
     <div class="c_red">
         {{ $message }}
@@ -40,6 +42,7 @@
 <div class="input-container">
     <p>Աղբյուր url</p>
     <input type="text" name="post_url" value="{{ old('post_url', $post->post_url) }}" class="form-control @error('post_url') is-invalid @enderror">
+    <p class="c_red" id="site_val"></p>
     @error('post_url')
     <div class="c_red">
         {{ $message }}
@@ -80,6 +83,7 @@
 <div class="input-container">
     <p>Խոսք</p>
     <input type="text" name="word" value="{{ old('word', $post->word) }}" class="form-control @error('word') is-invalid @enderror">
+    <p class="c_red" id="word_val"></p>
     @error('word')
     <div class="c_red">
         {{ $message }}
