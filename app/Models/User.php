@@ -26,11 +26,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Service::class);
     }
 
-    public function chats()
-    {
-        return $this->hasMany(Chat::class);
-    }
-
     /**
      * The attributes that are mass assignable.
      *
@@ -43,6 +38,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'type',
         'tel',
         'address',
+        'date',
     ];
 
     /**

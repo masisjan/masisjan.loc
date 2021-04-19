@@ -23,8 +23,8 @@ class HomeController extends Controller
 
     public function menu()
     {
-        $allMenus = Menu::get()->sortByDesc('count');
-        $abcMenus = Menu::get()->sortBy('title');
+        $allMenus = Menu::where('table_id','>', 0)->get()->sortByDesc('count');
+        $abcMenus = Menu::where('category_id', 0)->get()->sortBy('title');
         $myMenus = My_count::where('user_id', Auth::id())->get()->sortByDesc('count');
         return view('all.menu', compact( 'allMenus', 'myMenus', 'abcMenus'));
     }

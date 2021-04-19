@@ -19,7 +19,7 @@
     </div>
 </div>
 <div class="input-container">
-    <p>Երթուղայինի քարտեզը</p>
+    <p>Քարտեզը</p>
     <input type="text" name="map" value="{{ old('map', $transport->map) }}" class="form-control @error('map') is-invalid @enderror">
     @error('map')
     <div class="c_red">
@@ -28,7 +28,7 @@
     @enderror
 </div>
 <div class="input-container">
-    <p>Երթուղայինի համարը</p>
+    <p>Համարը</p>
     <input type="text" name="number" value="{{ old('number', $transport->number) }}" class="form-control @error('number') is-invalid @enderror">
     @error('number')
     <div class="c_red">
@@ -37,7 +37,7 @@
     @enderror
 </div>
 <div class="input-container">
-    <p>Երթուղայինի արժեքը</p>
+    <p>Արժեքը</p>
     <input type="text" name="value" value="{{ old('value', $transport->value) }}" class="form-control @error('value') is-invalid @enderror">
     @error('value')
     <div class="c_red">

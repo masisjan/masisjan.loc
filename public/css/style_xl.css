@@ -352,6 +352,7 @@
         font-size: 18px;
         color: white;
         background-color: #163f9d;
+        overflow: auto;
     }
 
     .div_cat input{

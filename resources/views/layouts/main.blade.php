@@ -173,6 +173,7 @@
 <script src=" {{ asset('js/soc_share.js') }} "></script>
 <script src=" {{ asset('js/myapp.js') }} "></script>
 <script src=" {{ asset('js/menu_img.js') }} "></script>
+<script src=" {{ asset('js/transport.js') }} "></script>
 {{--<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>--}}
 {{--<script src=" {{ asset('js/bootstrap.js') }} "></script>--}}
 @stack('scripts')

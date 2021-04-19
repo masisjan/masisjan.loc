@@ -184,7 +184,10 @@ class ServiceController extends Controller
         $service = Service::findOrFail($id);
         $tab = $service->tab_name;
         $site_url = parse_url($service->site, PHP_URL_HOST);
-        $fb_url = parse_url($service->fb, PHP_URL_HOST);
+        $fb_url = "";
+        if($service->fb > 0){
+            $fb_url = parse_url($service->fb, PHP_URL_HOST);
+        }
 
         if(auth()->user()->type == 'admin') {
             return view('users.services.show', compact('service','site_url', 'fb_url', 'tab'));
@@ -224,8 +227,8 @@ class ServiceController extends Controller
         if($service->publish == 'yes' && $service->confirm == 'yes') {
             $service->count = $service->count + 1;
             $service->save();
-            $url_site = $service->site;
-            $site_url = parse_url($url_site, PHP_URL_HOST);
+            $site_url = parse_url($service->site, PHP_URL_HOST);
+            $fb_url = parse_url($service->fb, PHP_URL_HOST);
             $table_id = $service->tab_name;
             $table_name = "services";
             $table_rating = $service->rating;
@@ -240,7 +243,7 @@ class ServiceController extends Controller
             if(Auth::check()) {
                 $my_count = My_count::updateOrInsert(['user_id' => Auth::id(), 'menu_id' => $table_id])->increment('count');
             }
-            return view('all.services.show', compact('service', 'site_url', 'table_id', 'id', 'table_name',
+            return view('all.services.show', compact('service', 'site_url', 'fb_url', 'table_id', 'id', 'table_name',
                 'table_rating', 'og_title', 'og_description', 'og_image'));
         }else
             return redirect()->route('foods');

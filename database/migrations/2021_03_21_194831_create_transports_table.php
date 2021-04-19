@@ -24,6 +24,8 @@ class CreateTransportsTable extends Migration
             $table->string('map')->nullable();
             $table->string('text')->nullable();
             $table->string('publish')->default('not');
+            $table->string('count')->default(0);
+            $table->string('rating')->nullable();
             $table->timestamps();
         });
     }

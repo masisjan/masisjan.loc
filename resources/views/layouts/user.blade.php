@@ -50,6 +50,7 @@
         <script src=" {{ asset('js/app.js') }} "></script>
         <script src=" {{ asset('js/delete.js') }} "></script>
         <script src=" {{ asset('js/validate.js') }} "></script>
+        <script src=" {{ asset('js/transport.js') }} "></script>
         @stack('scripts')
     </body>
 </html>

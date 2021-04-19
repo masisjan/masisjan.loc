@@ -55,6 +55,7 @@ class MenuController extends Controller
             'icon'                   =>  $request->icon,
             'text'                   =>  $request->text,
             'href'                   =>  $request->href,
+            'type'                   =>  $request->type,
             'table_id'               =>  $request->table_id,
             'category_id'            =>  $category_id,
         );
@@ -100,6 +101,7 @@ class MenuController extends Controller
             'icon'                   =>  $request->icon,
             'text'                   =>  $request->text,
             'href'                   =>  $request->href,
+            'type'                   =>  $request->type,
             'table_id'               =>  $request->table_id,
             'category_id'            =>  $category_id,
         );

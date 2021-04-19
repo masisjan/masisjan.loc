@@ -28,7 +28,7 @@
                     <i class="fas fa-phone-alt"></i><span><strong>Հեռ՝</strong><a href="tel:{{ $service->phone }}"> {{ $service->phone }}</a></span><br>
                     <i class="fas fa-envelope"></i><span><strong>Էլ․ փոստ՝</strong> {{ $service->email }}</span><br>
                     <i class="fab fa-internet-explorer"></i><span><strong>Կայք՝</strong><a href="{{ $service->site }}"> {{ $site_url }}</a></span><br>
-                    <i class="fab fa-facebook-f"></i><span><strong>ֆեյսբուք՝</strong><a href="{{ $service->fb }}"> facebook.com/id</a></span><br>
+                    <i class="fab fa-facebook-f"></i><span><strong>ֆեյսբուք՝</strong><a href="{{ $service->fb }}"> {{ $fb_url }}</a></span><br>
                 </div>
                 <div class="col col_6 col_md col_6_md icon_footer dey"><br>
                     <div class="p_post">Աշխատանքային օրեր, ժամեր</div>

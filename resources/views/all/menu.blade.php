@@ -25,9 +25,11 @@
                 <div class="menu" id="myBottoma">
                     @if (Auth::check())
                     @foreach($myMenus as $myMenu)
+                        @if($myMenu->menu->table_id > 0)
                         <div class="col col_md col_4 col_6_md">
                             <a class="menu__item" href="{{ asset($myMenu->menu->href) }}"><i class="{{ $myMenu->menu->icon }}" ></i> {{ $myMenu->menu->title }}</a>
                         </div>
+                        @endif
                     @endforeach
                     @else
                         <a class="menu__item" href="{{ asset('login') }}"><i class="fas fa-user-circle"></i> ԴԵՌ ԳՐԱՆՑՎԱԾ ՉԵՔ ?</a>
@@ -36,7 +38,12 @@
                 <div class="menu" id="abcBottoma">
                     @foreach($abcMenus as $abcMenu)
                         <div class="col col_md col_4 col_6_md">
-                            <a class="menu__item" href="{{ asset($abcMenu->href) }}"><i class="{{ $abcMenu->icon }}" ></i> {{ $abcMenu->title }}</a>
+                            <a class="menu__item accordion" href="{{ asset($abcMenu->href) }}"><i class="{{ $abcMenu->icon }}" ></i> {{ $abcMenu->title }}</a>
+                            <div class="padding_lr_15 margin_left_3 panel content block_non bgc_nitral">
+                                @if(count($abcMenu->subcategory))
+                                    @include('all.child_menu',['subcategories' => $abcMenu->subcategory])
+                                @endif
+                            </div>
                         </div>
                     @endforeach
                 </div>

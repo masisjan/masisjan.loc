@@ -7,7 +7,7 @@
         </x-slot>
 
         <div class="mb-4 text-sm text-gray-600">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+            {{ __('Մոռացել եք Ձեր գաղտնաբառը? Ոչ մի խնդիր. Ուղղակի տեղեկացրեք մեզ ձեր էլ. Փոստի հասցեն, և մենք էլ.փոստով ձեզ կուղարկենք գաղտնաբառի վերականգնման հղումը, որը թույլ կտա ձեզ ընտրել նորը:') }}
         </div>
 
         <!-- Session Status -->
@@ -21,14 +21,14 @@
 
             <!-- Email Address -->
             <div>
-                <x-label for="email" :value="__('Email')" />
+                <x-label for="email" :value="__('Էլ․ փոստ')" />
 
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
             </div>
 
             <div class="flex items-center justify-end mt-4">
                 <x-button>
-                    {{ __('Email Password Reset Link') }}
+                    {{ __('Ստանալ հղումը') }}
                 </x-button>
             </div>
         </form>

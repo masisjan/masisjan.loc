@@ -2,27 +2,30 @@
 @section('title', 'Contact App | All contacts')
 @section('content')
 
-    <div class="bg_k2 center ">
-        <p class="text_houm_tu ">Բոլորը</p>
-    </div>
-    <div class="bg_k1 clearfix">
-        <div class="col col_6">
-            <div class="width_350 icon_menu ">
-                <a class="menu__item " href="{{ route('users.services.index', 3) }}"><i class="fas fa-plane"></i> ԱՎԻԱՏՈՄՍԵՐ</a>
-                <a class="menu__item " href="{{ route('users.banks.index') }}"><i class="fas fa-landmark"></i> ԲԱՆԿԵՐ</a>
-                <a class="menu__item " href="{{ route('users.services.index', 5) }}"><i class="fas fa-taxi"></i> ՏԱՔՍԻՆԵՐ</a>
-                <a class="menu__item " href="{{ route('users.services.index', 9) }}"><i class="fas fa-flag"></i> ԿՈՒՍԱԿՑՈՒԹՅՈՒՆՆԵՐ</a>
-                <a class="menu__item " href="{{ route('users.transports.index') }}"><i class="fas fa-bus"></i> ԵՐԹՈՒՂԱՅԻՆՆԵՐ</a>
+<div class="bg_k2 center ">
+    <p class="text_houm_tu ">Բոլորը</p>
+</div>
+<div class="icon_menu menus padding_b_50 footer_fon_2 clearfix">
+    <div class="menu" id="abcBottoma">
+        @foreach($abcMenus as $abcMenu)
+            <div class="col col_md col_6 col_6_md">
+                @if($abcMenu->href =='#!')
+                <a class="menu__item accordion" href="#!">
+                @else
+                <a class="menu__item accordion" href="{{ asset('/users/' . $abcMenu->href) }}">
+                @endif
+                    <i class="{{ $abcMenu->icon }}" ></i> {{ $abcMenu->title }}
+                </a>
+                <div class="padding_lr_15 margin_left_3 panel content block_non bgc_nitral">
+                    @if(count($abcMenu->subcategory))
+                        @include('users.child_menu',['subcategories' => $abcMenu->subcategory])
+                    @endif
+                </div>
             </div>
-        </div>
-        <div class="col col_6">
-            <div class="width_350 icon_menu ">
-                <a class="menu__item " href="{{ route('users.posts.index') }}"><i class="fas fa-newspaper" ></i> ՆՈՐՈՒԹՅՈՒՆՆԵՐ</a>
-                <a class="menu__item " href="{{ route('users.categories.index') }}"><i class="fas fa-list" ></i> ԲԱԺԻՆՆԵՐ</a>
-                <a class="menu__item " href="{{ route('users.services.index', 6) }}"><i class="fas fa-prescription-bottle-alt"></i> ԴԵՂԱՏՆԵՐ</a>
-                <a class="menu__item " href="{{ route('users.services.index', 10) }}"><i class="fas fa-hamburger"></i> ԱՐԱԳ ՍՆՈՒՆԴ</a>
-            </div>
-        </div>
+        @endforeach
     </div>
-
+</div>
+<div class="bg_k2 center padding_all">
+    <p class="color_white">Չկա Ձեզ անհրաժեշտ բաժինը ?, գրեք մեզ։</p>
+</div>
 @endsection

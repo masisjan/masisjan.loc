@@ -12,10 +12,10 @@ class Stop extends Model
 
     public function transport()
     {
-        return $this->belongsTo(Transport::class);
+        return $this->belongsTo(Transport::class, 't_id', 'id');
     }
     public function time()
     {
-        return $this->belongsTo(Time::class);
+        return $this->hasMany(Time::class);
     }
 }

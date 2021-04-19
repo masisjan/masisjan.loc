@@ -17,7 +17,7 @@
 
             <!-- Email Address -->
             <div>
-                <x-label for="email" :value="__('Email')" />
+                <x-label for="email" :value="__('Էլ․ փոստ')" />
 
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
             </div>
@@ -25,7 +25,7 @@
             <!-- Password -->
             <div class="mt-4">
                 <label for="password" class="block font-medium text-sm text-gray-700">
-                    {{ __('Password') }}
+                    {{ __('Գաղտնաբառ') }}
                 </label>
 
                 <x-input id="password" class="block mt-1 w-full" type="password" name="password" required />
@@ -34,7 +34,7 @@
             <!-- Confirm Password -->
             <div class="mt-4">
                 <label for="password_confirmation" class="block font-medium text-sm text-gray-700">
-                    {{ __('Confirm Password') }}
+                    {{ __('Կրկնել գաղտնաբառը') }}
                 </label>
 
                 <x-input id="password_confirmation" class="block mt-1 w-full"
@@ -44,7 +44,7 @@
 
             <div class="flex items-center justify-end mt-4">
                 <x-button>
-                    {{ __('Reset Password') }}
+                    {{ __('Վերականգնել գաղտնաբառը') }}
                 </x-button>
             </div>
         </form>

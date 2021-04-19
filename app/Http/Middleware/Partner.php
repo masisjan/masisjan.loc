@@ -4,8 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class Admin
+class Partner
 {
     /**
      * Handle an incoming request.
@@ -16,9 +17,10 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->type !== 'admin') {
-            return redirect('/dashboard');
+        if (Auth::user()->type == 'partner' || Auth::user()->type == 'admin') {
+            return $next($request);
         }
-        return $next($request);
+        return redirect('/dashboard');
+//        return $next($request);
     }
 }

@@ -12,7 +12,6 @@
             @enderror
         @endif
     </div>
-
     <div class="input-container">
         <p>Բաժին</p>
         <input type="text" name="title" value="{{ old('title', $menu->title) }}" id="title" class="form-control @error('title') is-invalid @enderror">
@@ -22,7 +21,6 @@
         </div>
         @enderror
     </div>
-
     <div class="input-container">
         <p>Իկոն</p>
         <input type="text" name="icon" value="{{ old('icon', $menu->icon) }}" id="icon" class="form-control @error('icon') is-invalid @enderror">
@@ -32,7 +30,6 @@
         </div>
         @enderror
     </div>
-
     <div class="input-container">
         <p>Տեքստ</p>
         <input type="text" name="text" value="{{ old('text', $menu->text) }}" id="text" class="form-control @error('text') is-invalid @enderror">
@@ -42,7 +39,6 @@
         </div>
         @enderror
     </div>
-
     <div class="input-container">
         <p>Հռեֆ</p>
         <input type="text" name="href" value="{{ old('href', $menu->href) }}" id="href" class="form-control @error('href') is-invalid @enderror">
@@ -52,7 +48,6 @@
         </div>
         @enderror
     </div>
-
     <div class="input-container">
         <p>Table id</p>
         <input type="text" name="table_id" value="{{ old('table_id', $menu->table_id) }}" id="table_id" class="form-control @error('table_id') is-invalid @enderror">
@@ -62,7 +57,22 @@
         </div>
         @enderror
     </div>
-
+    <div class="input-container">
+        <div class="form_toggle">
+            <div class="form_toggle-item item-2">
+                <input id="fid-1" type="radio" name="type" value="u" checked>
+                <label for="fid-1">all</label>
+            </div>
+            <div class="form_toggle-item item-2">
+                <input id="fid-2" type="radio" name="type" value="k">
+                <label for="fid-2">karevor</label>
+            </div>
+            <div class="form_toggle-item item-2">
+                <input id="fid-3" type="radio" name="type" value="a">
+                <label for="fid-3">admin</label>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="col col_6">

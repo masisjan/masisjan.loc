@@ -3,12 +3,12 @@
 @section('content')
 
       <div class="bg_k2 text_houm_tu center">
-           <p>Ավելացնել Կանգառ</p>
+           <p>Ավելացնել Ժամանակ</p>
       </div>
       <div><br>
-           <form action="{{ route('users.stops.store') }}" method="POST" enctype="multipart/form-data">
+           <form action="{{ route('users.times.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                @include('users.transports.stops._form')
+                @include('users.transports.times._form')
            </form>
       </div>
 

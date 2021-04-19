@@ -12,6 +12,6 @@ class Transport extends Model
 
     public function stop()
     {
-        return $this->belongsTo(Stop::class);
+        return $this->hasMany(Stop::class);
     }
 }

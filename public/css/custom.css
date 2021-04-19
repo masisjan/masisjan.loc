@@ -25,6 +25,11 @@ body {
 .color_white {
     color: #ffffff;
 }
+
+.bgc_nitral {
+    background-color: rgba(120,120,120,0.2);
+}
+
 .color_bord {
     color: #8d0b0b;
     font-size: 14px;
@@ -118,6 +123,10 @@ body {
     color: green;
 }
 
+.color_kapuyt {
+    color: #163f9d;
+}
+
 .c_red {
     color: #de7315;
     font-weight: 800;
@@ -145,4 +154,41 @@ body {
 
 .alltopimg > img:first-child, .mytopimg > img:first-child, .menus > .menu:first-child{
     display: block;
+}
+
+select {
+    width: 50%;
+    padding: 15px;
+}
+.stops {
+    margin: 15px 0;
+    border-style: solid;
+    border-color: #163f9d;
+    border-width: 0 0 0 5px;
+}
+.stops p{
+    padding: 20px 0 3px 10px;
+}
+.stops i{
+    color: #163f9d;
+}
+
+.day_stop {
+    margin: 15px 0 0 5px;
+}
+
+.day_stop span{
+    color: #163f9d;
+    font-size: 12px;
+    font-weight: 900;
+    padding: 6px;
+    border-style: solid;
+    border-color: #163f9d;
+    border-width: 1px;
+    cursor: pointer;
+}
+
+.stops .stopsp:hover{
+    color: #dea115;
+    cursor: pointer;
 }

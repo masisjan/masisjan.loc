@@ -341,6 +341,7 @@
         font-size: 18px;
         color: white;
         background-color: #163f9d;
+        overflow: auto;
     }
 
     .div_cat input{
@@ -481,7 +482,7 @@
         padding: 15px;
         font-family: sans-serif;
         font-size: 18px;
-        border-left: 40px solid rgba(227, 116, 36, 0.5);;
+        border-left: 40px solid rgba(227, 116, 36, 0.5);
     }
 
     .p_citat i{

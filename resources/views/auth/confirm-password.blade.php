@@ -7,7 +7,7 @@
         </x-slot>
 
         <div class="mb-4 text-sm text-gray-600">
-            {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
+            {{ __('Սա հավելվածի անվտանգ տարածք է: Շարունակելուց առաջ հաստատեք ձեր գաղտնաբառը:') }}
         </div>
 
         <!-- Validation Errors -->

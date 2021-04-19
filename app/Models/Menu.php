@@ -9,7 +9,7 @@ class Menu extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'image', 'icon', 'text', 'href', 'count', 'category_id', 'table_id'];
+    protected $fillable = ['title', 'image', 'icon', 'text', 'href', 'count', 'category_id', 'table_id', 'type'];
 
     public function subcategory(){
         return $this->hasMany(Menu::class,'category_id');
