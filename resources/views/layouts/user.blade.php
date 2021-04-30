@@ -19,7 +19,6 @@
         <link href=" {{ asset('css/style_xl.css') }} " rel="stylesheet">
     </head>
     <body>
-        {{--                          navbar                --}}
         <div class="raz navbar clearfix">
             <div class="container_sm container_md">
                 <div>

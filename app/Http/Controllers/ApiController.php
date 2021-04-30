@@ -14,7 +14,7 @@ class ApiController extends Controller
 {
     public function show(Request $request)
     {
-        $t_name= trim($_POST['t_name']);
+        $t_name = trim($_POST['t_name']);
         $t_id = trim($_POST['t_id']);
         $oks = Stop::where('t_id', $t_id)->where('t_name', $t_name)->orderBy('number')->get();
         $tex = "";

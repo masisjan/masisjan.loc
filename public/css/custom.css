@@ -36,7 +36,6 @@ body {
     font-weight: 600;
 }
 
-
 .padding_all {
     padding: 15px;
 }
@@ -89,8 +88,6 @@ body {
 }
 
 .fullscreen-bg {
-    /*margin-left: auto;*/
-    /*margin-right: auto;*/
     width: 100%;
     height: 100vh;
     object-fit: cover;
@@ -190,5 +187,36 @@ select {
 
 .stops .stopsp:hover{
     color: #dea115;
+    cursor: pointer;
+}
+
+.modal {
+    position: fixed; /* Оставаться на месте */
+    z-index: 1; /* Сидеть на вершине */
+    left: 0;
+    top: 0;
+    width: 100%; /* Полная ширина */
+    height: 100%; /* Полная высота */
+    overflow: auto; /* Включите прокрутку, если это необходимо */
+    background-color: rgb(0,0,0); /* Цвет запасной вариант  */
+    background-color: rgba(0,0,0,0.5); /*Черный с непрозрачностью */
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    margin-top: 100px;
+    padding: 15px;
+    border: 2px solid #dea115;
+    width: 330px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.close {
+    color: #dea115;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
     cursor: pointer;
 }

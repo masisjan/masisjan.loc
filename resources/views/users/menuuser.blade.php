@@ -12,6 +12,7 @@
                 <a class="menu__item " href="{{ route('users.words.index') }}"><i class="fas fa-warehouse" ></i> Home title</a>
                 <a class="menu__item " href="{{ route('users.places.index') }}"><i class="fas fa-map-marker-alt"></i> ՎԱՅՐԵՐ</a>
             </div>
+        <a class="menu__item " href="{{ route('users.users.index') }}"><i class="fas fa-users"></i> ՕԳՏԱՏԵՐԵՐ</a>
         @endif
         @if(auth()->user()->type == 'admin' || auth()->user()->type == 'partner')
         <a class="menu__item " href="{{ route('users.ads.index') }}"><i class="fas fa-ad"></i> ԳՈՎԱԶԴ</a>
@@ -19,6 +20,7 @@
         <a class="menu__item " href="{{ route('users.all') }}"><i class="fas fa-plus-circle"></i> ԱՎԵԼԱՑՆԵԼ</a>
         <a class="menu__item accordion " href="#"><i class="fas fa-address-card" ></i> ԱՆՁՆԱԿԱՆ ԷՋ</a>
             <div class="margin_left_3 panel content">
+                <a class="menu__item" href="{{ route('users.profile') }}"><i class="fas fa-user-circle"></i> ՊՐՈՖԻԼ</a>
                 <a class="menu__item" href="{{ route('users.setting') }}"><i class="fas fa-cog"></i> ԿԱՐԳԱՎՈՐՈՒՄՆԵՐ</a>
                 <a class="menu__item btn-logout" href="{{ route('logout', Auth::id()) }}"><i class="fas fa-sign-out-alt" ></i> ԴՈՒՐՍ ԳԱԼ</a>
             </div>

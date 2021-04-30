@@ -16,18 +16,16 @@ class MailController extends Controller
 
     public function tablichkaEmail(Request $request)
     {
-
         $data = [
-            'subject' => "Պատրաստել ցուցանակ",
-            'name' => "MasisJan",
-            'email' => "077114557@mail.ru",
-            'text' => $request->title,
-            'qr' => $request->image_qr,
-            'user_name' => auth()->user()->name,
-            'user_email' => auth()->user()->email,
-            'user_tel' => auth()->user()->tel,
+            'subject'     => "Պատրաստել ցուցանակ",
+            'name'        => "MasisJan",
+            'email'       => auth()->user()->email,
+            'text'        => $request->title,
+            'qr'          => $request->image_qr,
+            'user_name'   => auth()->user()->name,
+            'user_email'  => auth()->user()->email,
+            'user_tel'    => auth()->user()->phone,
         ];
-
         Mail::send('emails.email-template', $data, function($message) use ($data) {
             $message->to($data['email'])
                 ->subject($data['subject']);

@@ -1,3 +1,4 @@
+import "tailwindcss/tailwind.css"
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};

@@ -24,7 +24,7 @@
         <p class="p_post padding_head">Այսօր կայքի ֆեյսբուքյան էջի հետևորդների քանակը հատում է 5000 սահմանը, որն էլ ավելի է պարտավորեցնում ինձ ավելի ու ավելի կատարելագործելու իմ կողմից Ձեզ համար պատրաստված այս կայքը։
             Միշտ ձեր հետ, միշտ ձեր կողքին Աշոտ Բաղդասարյան․․․</p>
         <div class="center">
-            <a href="">
+            <a href="{{ route('masisjan.help') }}">
                 <div class="float_left col_3 col_6_md divrandcolor bg_edit news_link">
                     <h2 class="padding_all"><i class="fas fa-piggy-bank"></i><br>ԿԱՏԱՐԵԼ ՆՎԻՐԱՏՎՈՒԹՅՈՒՆ</h2>
                 </div>

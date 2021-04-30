@@ -131,7 +131,7 @@
                 <h3>ՄԵՆՔ</h3>
                 <a href="{{ asset('/masisjan') }}"><p class="margin_top_15 color_white">ՊԱՏՄՈՒԹՅՈՒՆ</p></a>
                 <a href="{{ asset('/masisjan') }}"><p class="margin_top_15 color_white">ՆՊԱՏԱԿ</p></a>
-                <a href="{{ asset($menu->href) }}"><p class="margin_top_15 color_white">ՆՎԻՐԱՏՎՈՒԹՅՈՒՆ</p></a>
+                <a href="{{ asset('/masisjan/help') }}"><p class="margin_top_15 color_white">ՆՎԻՐԱՏՎՈՒԹՅՈՒՆ</p></a>
                 <a href="{{ asset($menu->href) }}"><p class="margin_top_15 color_white">ԳՈՎԱԶԴ</p></a>
                 <a href="{{ asset($menu->href) }}"><p class="margin_top_15 color_white">ԳՈՐԾՆԿԵՐ</p></a>
                 <a href="{{ asset('/masisjan/contact') }}"><p class="margin_top_15 color_white">ԿԱՊ</p></a>
