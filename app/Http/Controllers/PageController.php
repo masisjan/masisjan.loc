@@ -2,30 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Service;
+use App\Models\Menu;
+use App\Models\My_count;
+use App\Models\Page;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
-class BankController extends Controller
+class PageController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $banks = Service::where('tab_name', '4')->latest()->paginate(5);
-        return view('users.banks.index', compact('banks'));
+        $tab = substr(strrchr($request->fullUrl(),'?'), 1, -1);
+        $pages = Page::where('tab_name', $tab)->latest()->paginate(5);
+        return view('users.pages.index', compact('pages', 'tab'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        $bank = new Service();
-        return view('users.banks.create', compact('bank'));
+        $tab = substr(strrchr($request->fullUrl(),'?'), 1, -1);
+        $page = new Page();
+        return view('users.pages.create', compact('page', 'tab'));
     }
 
     public function update($id, Request $request)
     {
-        $bank = Service::findOrFail($id);
+        $page = Page::findOrFail($id);
         $user_id = Auth::id();
 
         $request->validate([
@@ -33,7 +38,6 @@ class BankController extends Controller
             'director'     => 'nullable|min:3|max:90',
             'title'        => 'required|min:5|max:120',
             'address'      => 'required|max:99',
-            'phone'        => 'numeric',
             'email'        => 'nullable|email',
             'site'         => 'nullable|url',
             'fb'           => 'nullable|url',
@@ -44,26 +48,27 @@ class BankController extends Controller
 
         $image_name = "";
         if ($request->file('image')) {
-            Storage::disk('public')->delete('uploads/image/banks/' . $bank->image);
+            Storage::disk('public')->delete('uploads/image/pages/' . $page->image);
             $img_file = Image::make($request->file('image'))->resize(700, null, function ($constraint) {
                 $constraint->aspectRatio();
             });
             $img_file->resizeCanvas(null, 350);
+            $img_file->insert('image/app/watermark.png');
             $image_name = rand(111111, 999999) . '.' . date('Y-m-d-H-i-s') . '.jpg';
-            $img_file->save('storage/uploads/image/banks/'. $image_name, 70);
-        }else if ($bank->image && $request->image_delete !== 'none'){
-            $image_name = $bank->image;
+            $img_file->save('storage/uploads/image/pages/'. $image_name, 70);
+        }else if ($page->image && $request->image_delete !== 'none'){
+            $image_name = $page->image;
         }else if ($request->image_delete == 'none'){
-            Storage::disk('public')->delete('uploads/image/banks/' . $bank->image);
+            Storage::disk('public')->delete('uploads/image/pages/' . $page->image);
             $image_name = "";
         }else{
             $image_name = "";
         }
 
-        $image_qr = $bank->qr_cod;
-        if ($bank->qr_cod == null) {
+        $image_qr = $page->qr_cod;
+        if ($page->qr_cod == null) {
             $image_qr = $user_id . 'qr' . date('Y-m-d-H-i-s') . '.svg';
-            QrCode::encoding('UTF-8')->format('svg')->size(500)->backgroundColor(218, 165, 32)->generate(url("banks/{$bank->id}"), 'storage/uploads/image/qr/' . $image_qr);
+            QrCode::encoding('UTF-8')->format('svg')->size(500)->backgroundColor(218, 165, 32)->generate(url("pages/{$page->id}"), 'storage/uploads/image/qr/' . $image_qr);
         }
 
         $form = array(
@@ -87,20 +92,18 @@ class BankController extends Controller
             'text'                   =>  $request->text,
             'publish'                =>  $request->publish,
             'qr_cod'                 =>  $image_qr,
-            'user_id'                =>  $user_id,
-            'tab_name'               =>  4,
         );
 
-        $bank->update($form);
-
-        return redirect()->route('users.banks.index', compact(  'image_name'))
-            ->with('message', "Contact has been updated successfully");
+        $page->update($form);
+        return redirect()->route('users.pages.index', $page->tab_name)
+            ->with('message', "Հաջողությամբ թարմացվել է");
     }
 
     public function edit($id)
     {
-        $bank= Service::findOrFail($id);
-        return view('users.banks.edit', compact('bank'));
+        $page = Page::findOrFail($id);
+        $tab = $page->tab_name;
+        return view('users.pages.edit', compact('page', 'tab'));
     }
 
     public function store(Request $request)
@@ -110,14 +113,13 @@ class BankController extends Controller
             'director'     => 'nullable|min:3|max:90',
             'title'        => 'required|min:5|max:120',
             'address'      => 'required|max:99',
-            'phone'        => 'numeric',
             'email'        => 'nullable|email',
             'site'         => 'nullable|url',
             'fb'           => 'nullable|url',
             'text'         => 'nullable|min:30',
         ]);
 
-        $user_id = Auth::id();
+        $tab = substr(strrchr($request->fullUrl(),'?'), 1, -1);
 
 //        glxavor nkar@ sarqelu hamar
         $image_name = "";
@@ -126,8 +128,9 @@ class BankController extends Controller
                 $constraint->aspectRatio();
             });
             $img_file->resizeCanvas(null, 350);
+            $img_file->insert('image/app/watermark.png');
             $image_name = rand(111111, 999999) . '.' . date('Y-m-d-H-i-s') . '.jpg';
-            $img_file->save('storage/uploads/image/banks/'. $image_name, 70);
+            $img_file->save('storage/uploads/image/pages/'. $image_name, 70);
         }
 
         $form = array(
@@ -150,64 +153,71 @@ class BankController extends Controller
             'sunday'                 =>  $request->sunday,
             'text'                   =>  $request->text,
             'publish'                =>  $request->publish,
-            'user_id'                =>  $user_id,
-            'tab_name'               =>  4,
+            'tab_name'               =>  $tab,
         );
 
-        $bank = Service::create($form);
+        $page = Page::create($form);
 
-        return redirect()->route('users.banks.index', compact(  'image_name'))
-            ->with('message', "Contact has been updated successfully");
+        return redirect()->route('users.pages.index', $tab)
+            ->with('message', "Հաջողությամբ ավելացվել է");
     }
 
     public function show($id)
     {
-        $bank = Service::findOrFail($id);
-        $url = $bank->bank_url;
-        $bank_url = parse_url($url, PHP_URL_HOST);
+        $page = Page::findOrFail($id);
+        $tab = $page->tab_name;
+        $site_url = parse_url($page->site, PHP_URL_HOST);
+        $fb_url = "";
+        if($page->fb > 0){
+            $fb_url = parse_url($page->fb, PHP_URL_HOST);
+        }
 
-        return view('users.banks.show', compact('bank','bank_url'));
+        return view('users.pages.show', compact('page','site_url', 'fb_url', 'tab'));
     }
 
     public function destroy($id)
     {
-        $bank = Service::findOrFail($id);
-        if ($bank->image) {
-            Storage::disk('public')->delete('uploads/image/banks/' . $bank->image);
+        $page = Page::findOrFail($id);
+        $tab = $page->tab_name;
+        if ($page->image) {
+            Storage::disk('public')->delete('uploads/image/pages/' . $page->image);
         }
-        $bank = Service::findOrFail($id)->delete();
-        return redirect()->route('users.banks.index')->with('message', "Contact has been deleted successfully");
+        $page = Page::findOrFail($id)->delete();
+        return redirect()->route('users.pages.index', $tab)->with('message', "Հաջողությամբ հեռացվել է");
     }
 //.........................................
-    public function banks()
+    public function pages(Request $request)
     {
-        $banks = Service::where('publish', 'yes')->where('confirm', 'yes')->where('tab_name', '4')->orderBy('rating', 'DESC')->paginate(10);
-        $og_title = 'Մասիսջան, Մասիս քաղաքի բոլոր բանկերը մեկ վայրում';
-        $og_description = 'Այստեղ կարող եք տեղեկատվություն գտնել Մասիս քաղաքում գործող բոլոր բանկերի մասին․․․';
-        return view('all.banks.index', compact('banks', 'og_title', 'og_description'));
+        $tab = substr(strrchr($request->fullUrl(),'?'), 1, -1);
+        $pages = Page::where('publish', 'yes')->where('tab_name', $tab)->orderBy('rating', 'DESC')->paginate(10);
+        return view('all.pages.index', compact('pages'));
     }
 
-    public function banks_show($id)
+    public function pages_show($id, Request $request)
     {
-        $bank = Service::findOrFail($id);
-        if($bank->publish == 'yes' && $bank->confirm == 'yes') {
-            $bank->count = $bank->count + 1;
-            $bank->save();
-            $url_site = $bank->site;
-            $site_url = parse_url($url_site, PHP_URL_HOST);
-            $table_id = $bank->tab_name;
-            $table_name = "banks";
-            $table_rating = $bank->rating;
-            $og_title = $bank->title;
-            $og_description = mb_substr($bank->text, 0, 160, "utf-8") . '...';
-            if($bank->image){
-                $og_image = asset('storage/uploads/image/banks/' . $bank->image);
+        $page = Page::findOrFail($id);
+        if($page->publish == 'yes') {
+            $page->count = $page->count + 1;
+            $page->save();
+            $site_url = parse_url($page->site, PHP_URL_HOST);
+            $fb_url = parse_url($page->fb, PHP_URL_HOST);
+            $table_id = $page->tab_name;
+            $table_name = "pages";
+            $table_rating = $page->rating;
+            $og_title = $page->title;
+            $og_description = mb_substr($page->text, 0, 160, "utf-8") . '...';
+            if($page->image){
+                $og_image = asset('storage/uploads/image/pages/' . $page->image);
             }else{
                 $og_image = asset('image/app/default-post.jpg');
             }
-            return view('all.banks.show', compact('bank', 'site_url', 'table_id', 'id',
-                                                        'table_name', 'table_rating', 'og_title', 'og_description', 'og_image'));
+            $menu = Menu::updateOrInsert(['table_id' => $table_id])->increment('count');
+            if(Auth::check()) {
+                $my_count = My_count::updateOrInsert(['user_id' => Auth::id(), 'menu_id' => $table_id])->increment('count');
+            }
+            return view('all.pages.show', compact('page', 'site_url', 'fb_url', 'table_id', 'id', 'table_name',
+                'table_rating', 'og_title', 'og_description', 'og_image'));
         }else
-            return redirect()->route('banks');
+            return redirect()->back();
     }
 }

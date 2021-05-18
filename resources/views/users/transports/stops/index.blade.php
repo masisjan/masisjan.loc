@@ -48,7 +48,7 @@
             @endif
             </tbody>
         </table>
-        {{ $stops->links() }}
+        {{ $stops->onEachSide(0)->links() }}
     </div>
 
 @endsection

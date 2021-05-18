@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use App\Models\Menu;
+use App\Models\Post;
+use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -14,12 +17,23 @@ class UserController extends Controller
     public function index()
     {
         if (auth()->user()->type == 'admin'){
-            $user = User::latest()->paginate(5);
-            return view('users.index', compact( 'user'));
+            $user_count = User::count();
+            $post_count = Post::where('confirm', 'yes')->where('publish', 'yes')->count();
+            $event_count = Event::where('confirm', 'yes')->where('publish', 'yes')->count();
+            $posts = Post::where('confirm', 'not')->where('publish', 'yes')->latest()->paginate(5);
+            $events = Event::where('confirm', 'not')->where('publish', 'yes')->latest()->paginate(5);
+            $services = Service::where('confirm', 'not')->where('publish', 'yes')->latest()->paginate(5);
+            return view('users.index', compact( 'user_count', 'post_count', 'event_count',
+                                                                'posts', 'events', 'services'));
         }else if (auth()->user()->type == 'userPlus'){
-            return view('users.user_index', compact( 'abcMenus'));
+            $id = auth()->user()->id;
+            $post_count = Post::where('confirm', 'yes')->where('publish', 'yes')->where('user_id', $id)->count();
+            $event_count = Event::where('confirm', 'yes')->where('publish', 'yes')->where('user_id', $id)->count();
+            $service_count = Service::where('confirm', 'not')->where('publish', 'yes')->where('user_id', $id)->count();
+            return view('users.user_plus', compact( 'post_count', 'event_count', 'service_count'));
         }else {
-            return view('users.user_index', compact( 'abcMenus'));
+            $service_count = Service::where('confirm', 'not')->where('publish', 'yes')->where('user_id', auth()->user()->id)->count();
+            return view('users.user_index', compact( 'service_count'));
         }
     }
 
@@ -39,10 +53,18 @@ class UserController extends Controller
         return view('users.user.setting', compact( 'abcMenus'));
     }
 
-    public function profile()
+    public function profile($id)
     {
-        $user_id = auth()->user()->id;
-        $user = User::find($user_id);
+        if(auth()->user()->type == 'admin'){
+            $user_id = $id;
+            $user = User::find($user_id);
+            if($user == null){
+                return redirect()->back();
+            }
+        }else{
+            $user_id = auth()->user()->id;
+            $user = User::find($user_id);
+        }
         $day = "";
         $month = "";
         $year = "";
@@ -69,10 +91,11 @@ class UserController extends Controller
             'name'       =>  $request->name,
             'phone'      =>  $request->phone,
             'address'    =>  $request->address,
+            'type'       =>  $request->type,
             'date'       =>  $date,
         );
         $user->update($form);
-        return redirect()->route('users.profile')->with('message', "Տվյալները հաջողությամբ թարմացվել են");
+        return redirect()->back()->with('message', "Տվյալները հաջողությամբ թարմացվել են");
     }
 
     public function password()

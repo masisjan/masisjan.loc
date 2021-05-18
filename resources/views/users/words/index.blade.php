@@ -44,6 +44,7 @@
             @endif
             </tbody>
         </table>
-        {{ $words->links() }}
+{{--        {{ $words->links() }}--}}
+        {{ $words->appends (['sort' => 'voices'])->links() }}
     </div>
 @endsection

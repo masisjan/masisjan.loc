@@ -24,7 +24,7 @@
                 </div>
                 @endforeach
             @endif
-        {{ $services->appends (['sort' => 'voices'])->links() }}
+        {{ $services->appends (['sort' => 'voices'])->onEachSide(0)->links() }}
             <br>
         </div>
         <div class="col col_3 col_md col_3_md">

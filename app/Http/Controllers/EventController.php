@@ -12,7 +12,11 @@ class EventController extends Controller
 {
     public function index()
     {
-        $events = Event::latest()->paginate(5);
+        if(auth()->user()->type == 'admin'){
+            $events = Event::latest()->paginate(5);
+        }else{
+            $events = Event::where('user_id', auth()->user()->id)->latest()->paginate(5);
+        }
         return view('users.events.index', compact('events'));
     }
 
@@ -46,6 +50,7 @@ class EventController extends Controller
                 $constraint->aspectRatio();
             });
             $img_file->resizeCanvas(null, 350);
+            $img_file->insert('image/app/watermark.png');
             $image_name = date('Y-m-d-H-i-s') . '.jpg';
             $img_file->save('storage/uploads/image/events/'. $image_name, 60);
         }else if ($event->image && $request->image_delete !== 'none'){
@@ -71,19 +76,24 @@ class EventController extends Controller
             'cord0'                  =>  $request->cord0,
             'cord1'                  =>  $request->cord1,
             'publish'                =>  $request->publish,
+            'confirm'                =>  $request->confirm,
             'user_id'                =>  $user_id,
         );
 
         $event->update($form);
 
         return redirect()->route('users.events.index', compact(  'image_name', 'short_text'))
-            ->with('message', "Contact has been updated successfully");
+            ->with('message', "Հաջողությամբ թարմացվել է");
     }
 
     public function edit($id)
     {
         $event= Event::findOrFail($id);
+        if(auth()->user()->type == 'admin' || auth()->user()->id == $event->user_id) {
         return view('users.events.edit', compact('event'));
+        }else{
+            return redirect()->route('users.events.index');
+        }
     }
 
     public function store(Request $request)
@@ -108,6 +118,7 @@ class EventController extends Controller
                 $constraint->aspectRatio();
             });
             $img_file->resizeCanvas(null, 350);
+            $img_file->insert('image/app/watermark.png');
             $image_name = date('Y-m-d-H-i-s') . '.jpg';
             $img_file->save('storage/uploads/image/events/'. $image_name, 60);
         }
@@ -126,36 +137,43 @@ class EventController extends Controller
             'cord0'                  =>  $request->cord0,
             'cord1'                  =>  $request->cord1,
             'publish'                =>  $request->publish,
+            'confirm'                =>  $request->confirm,
             'user_id'                =>  $user_id,
         );
 
         $event = Event::create($form);
 
         return redirect()->route('users.events.index', compact(  'image_name'))
-            ->with('message', "Contact has been updated successfully");
+            ->with('message', "Հաջողությամբ ավելացվել է");
     }
 
     public function show($id)
     {
         $event = Event::findOrFail($id);
         $images = explode(',', $event->images);
-
-        return view('users.events.show', compact('event','images', 'event_url'));
+        if(auth()->user()->type == 'admin' || auth()->user()->id == $event->user_id) {
+            return view('users.events.show', compact('event','images'));
+        }else{
+            return redirect()->route('users.events.index');
+        }
     }
 
     public function destroy($id)
     {
         $event = Event::findOrFail($id);
+        if ($event->user_id != Auth::id() || auth()->user()->type != 'admin') {
+            return redirect()->back();
+        }
         if ($event->image) {
             Storage::disk('public')->delete('uploads/image/events/' . $event->image);
         }
         $event = Event::findOrFail($id)->delete();
-        return redirect()->route('users.events.index')->with('message', "Contact has been deleted successfully");
+        return redirect()->route('users.events.index')->with('message', "Հաջողությամբ հեռացվել է");
     }
 //.........................................
     public function events()
     {
-        $events = Event::where('publish', 'yes')->latest()->paginate(10);
+        $events = Event::where('publish', 'yes')->where('confirm', 'yes')->latest()->paginate(10);
         $og_title = 'Մասիսջան, Մասիս քաղաքի բոլոր միջոցառումները մեկ վայրում';
         $og_description = 'Այստեղ կարող եք տեղեկատվություն գտնել Մասիս քաղաքի միջոցառումների մասին․․․';
         return view('all.events.index', compact('events', 'og_description', 'og_title'));
@@ -164,7 +182,7 @@ class EventController extends Controller
     public function events_show($id)
     {
         $event = Event::findOrFail($id);
-        if($event->publish == 'yes') {
+        if($event->publish == 'yes' && $event->confirm == 'yes') {
             $event->count = $event->count + 1;
             $event->save();
             $og_title = $event->title;

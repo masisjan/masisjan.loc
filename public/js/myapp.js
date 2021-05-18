@@ -123,3 +123,11 @@ window.addEventListener('load', function() {
         });
     }
 });
+
+window.addEventListener('load', function() {
+    let menu_s = document.querySelector("#menu_service");
+        menu_s.addEventListener("click", function () {
+            document.querySelector(".menu_box_service").classList.toggle("menu__service");
+            document.querySelector(".fa-ellipsis-h").classList.toggle("fa-ellipsis-v");
+        });
+});

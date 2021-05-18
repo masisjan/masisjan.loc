@@ -43,7 +43,7 @@
                     @endif
                     </tbody>
                 </table>
-                {{ $menus->links() }}
+                {{ $menus->onEachSide(0)->links() }}
             </div>
 
 @endsection

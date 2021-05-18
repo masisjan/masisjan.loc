@@ -127,7 +127,8 @@ class TransportController extends Controller
     public function transports(Request $request)
     {
         $transports = Transport::where('publish', 'yes')->paginate(10);
-        return view('all.transports.index', compact('transports'));
+        $og_image = asset('image/app/transport.jpg');
+        return view('all.transports.index', compact('transports', 'og_image'));
     }
 
     public function transports_show($id, Request $request)

@@ -20,15 +20,18 @@ Route::post('/rating', "App\Http\Controllers\RatingController@show")->name('rati
 //NEWS
 Route::get('/news', "App\Http\Controllers\PostController@news")->name('news');
 Route::get('/news/{id}', "App\Http\Controllers\PostController@news_show")->name('news.show');
+//NEWS
+Route::get('/sections', "App\Http\Controllers\SectionController@sections")->name('sections');
+Route::get('/sections/{id}', "App\Http\Controllers\SectionController@sections_show")->name('sections.show');
 //EVENTS
 Route::get('/events', "App\Http\Controllers\EventController@events")->name('events');
 Route::get('/events/{id}', "App\Http\Controllers\EventController@events_show")->name('events.show');
-//BANKS
-Route::get('/banks', "App\Http\Controllers\BankController@banks")->name('banks');
-Route::get('/banks/{id}', "App\Http\Controllers\BankController@banks_show")->name('banks.show');
 //SERVICES
 Route::get('/services', "App\Http\Controllers\ServiceController@services")->name('services');
 Route::get('/services/{id}', "App\Http\Controllers\ServiceController@services_show")->name('services.show');
+//PAGES
+Route::get('/pages', "App\Http\Controllers\PageController@pages")->name('pages');
+Route::get('/pages/{id}', "App\Http\Controllers\PageController@pages_show")->name('pages.show');
 //TRANSPORTS
 Route::get('/transports', "App\Http\Controllers\TransportController@transports")->name('transports');
 Route::get('/transports/{id}', "App\Http\Controllers\TransportController@transports_show")->name('transports.show');
@@ -36,8 +39,11 @@ Route::get('/transports/{id}', "App\Http\Controllers\TransportController@transpo
 Route::get('/masisjan', function () { return view('all.masisjan.masisjan');})->name('masisjan');
 Route::get('/masisjan/contact', function () { return view('all.masisjan.contact');})->name('masisjan.contact');
 Route::get('/masisjan/help', function () { return view('all.masisjan.help');})->name('masisjan.help');
+Route::get('/banks/atm', function () { return view('all.banks.atm');})->name('banks.atm');
 //RANDOM
 Route::get('/places', "App\Http\Controllers\PlaceController@places_show")->name('places.show');
+//EMAIL
+Route::get('/search', 'App\Http\Controllers\ApiController@search')->name('search');
 //EMAIL
 Route::get('/email', 'App\Http\Controllers\MailController@create');
 Route::post('/email/tablichka', 'App\Http\Controllers\MailController@tablichkaEmail')->name('tablichka.email');
@@ -52,7 +58,7 @@ Route::group( ["middleware" => ["auth", "verified"]], function() {
         Route::get('/', "App\Http\Controllers\UserController@index")->name('users.index');
         Route::get('/all', "App\Http\Controllers\UserController@all")->name('users.all');
         Route::get('/setting', "App\Http\Controllers\UserController@setting")->name('users.setting');
-        Route::get('/profile', "App\Http\Controllers\UserController@profile")->name('users.profile');
+        Route::get('/profile/{id}', "App\Http\Controllers\UserController@profile")->name('users.profile');
         Route::get('/profile/password', "App\Http\Controllers\UserController@password")->name('users.password');
         Route::get('/profile/email', "App\Http\Controllers\UserController@email")->name('users.email');
         Route::put('/profile/{id}', "App\Http\Controllers\UserController@updateProfile")->name('users.profile.update');
@@ -108,6 +114,14 @@ Route::group( ["middleware" => ["auth", "verified"]], function() {
             Route::put('/menus/{id}', "App\Http\Controllers\MenuController@update")->name('users.menus.update');
             Route::get('/menus/{id}/edit', "App\Http\Controllers\MenuController@edit")->name('users.menus.edit');
 
+            Route::get('/allies', "App\Http\Controllers\AllyController@index")->name('users.allies.index');
+            Route::post('/allies', "App\Http\Controllers\AllyController@store")->name('users.allies.store');
+            Route::get('/allies/create', "App\Http\Controllers\AllyController@create")->name('users.allies.create');
+            Route::get('/allies/{id}', "App\Http\Controllers\AllyController@show")->name('users.allies.show');
+            Route::delete('/allies/{id}', "App\Http\Controllers\AllyController@destroy")->name('users.allies.destroy');
+            Route::put('/allies/{id}', "App\Http\Controllers\AllyController@update")->name('users.allies.update');
+            Route::get('/allies/{id}/edit', "App\Http\Controllers\AllyController@edit")->name('users.allies.edit');
+
             Route::get('/words', "App\Http\Controllers\WordController@index")->name('users.words.index');
             Route::post('/words', "App\Http\Controllers\WordController@store")->name('users.words.store');
             Route::get('/words/create', "App\Http\Controllers\WordController@create")->name('users.words.create');
@@ -131,6 +145,14 @@ Route::group( ["middleware" => ["auth", "verified"]], function() {
             Route::put('/money/{id}', "App\Http\Controllers\MoneyController@update")->name('users.money.update');
             Route::get('/money/{id}/edit', "App\Http\Controllers\MoneyController@edit")->name('users.money.edit');
 
+            Route::get('/pages', "App\Http\Controllers\PageController@index")->name('users.pages.index');
+            Route::post('/pages', "App\Http\Controllers\PageController@store")->name('users.pages.store');
+            Route::get('/pages/create', "App\Http\Controllers\PageController@create")->name('users.pages.create');
+            Route::get('/pages/{id}', "App\Http\Controllers\PageController@show")->name('users.pages.show');
+            Route::delete('/pages/{id}', "App\Http\Controllers\PageController@destroy")->name('users.pages.destroy');
+            Route::put('/pages/{id}', "App\Http\Controllers\PageController@update")->name('users.pages.update');
+            Route::get('/pages/{id}/edit', "App\Http\Controllers\PageController@edit")->name('users.pages.edit');
+
             Route::get('/places', "App\Http\Controllers\PlaceController@index")->name('users.places.index');
             Route::post('/places', "App\Http\Controllers\PlaceController@store")->name('users.places.store');
             Route::get('/places/create', "App\Http\Controllers\PlaceController@create")->name('users.places.create');
@@ -139,11 +161,15 @@ Route::group( ["middleware" => ["auth", "verified"]], function() {
             Route::put('/places/{id}', "App\Http\Controllers\PlaceController@update")->name('users.places.update');
             Route::get('/places/{id}/edit', "App\Http\Controllers\PlaceController@edit")->name('users.places.edit');
 
+            Route::get('/sections', "App\Http\Controllers\SectionController@index")->name('users.sections.index');
+            Route::post('/sections', "App\Http\Controllers\SectionController@store")->name('users.sections.store');
+            Route::get('/sections/create', "App\Http\Controllers\SectionController@create")->name('users.sections.create');
+            Route::get('/sections/{id}', "App\Http\Controllers\SectionController@show")->name('users.sections.show');
+            Route::delete('/sections/{id}', "App\Http\Controllers\SectionController@destroy")->name('users.sections.destroy');
+            Route::put('/sections/{id}', "App\Http\Controllers\SectionController@update")->name('users.sections.update');
+            Route::get('/sections/{id}/edit', "App\Http\Controllers\SectionController@edit")->name('users.sections.edit');
+
             Route::get('/users', "App\Http\Controllers\UserController@users")->name('users.users.index');
-            Route::post('/users', "App\Http\Controllers\UserController@store")->name('users.users.store');
-            Route::get('/users/{id}', "App\Http\Controllers\UserController@show")->name('users.users.show');
-            Route::put('/users/{id}', "App\Http\Controllers\UserController@update")->name('users.users.update');
-            Route::get('/users/{id}/edit', "App\Http\Controllers\UserController@edit")->name('users.users.edit');
         });
         Route::group( ["middleware" => ["userPlus"]], function() {
             Route::get('/posts', "App\Http\Controllers\PostController@index")->name('users.posts.index');

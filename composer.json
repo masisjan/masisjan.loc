@@ -16,6 +16,7 @@
         "intervention/image": "^2.5",
         "laravel-lang/lang": "~8.0",
         "laravel/framework": "^8.12",
+        "laravel/scout": "^9.1",
         "laravel/tinker": "^2.5",
         "shweshi/opengraph": "^1.1",
         "simplesoftwareio/simple-qrcode": "^4.2"

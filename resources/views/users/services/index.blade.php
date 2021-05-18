@@ -47,6 +47,6 @@
             @endif
             </tbody>
         </table>
-        {{ $services->appends (['sort' => 'voices'])->links() }}
+        {{ $services->appends (['sort' => 'voices'])->onEachSide(0)->links() }}
     </div>
 @endsection

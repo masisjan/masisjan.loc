@@ -35,13 +35,14 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
         View::share('words', Word::all());
         View::share('menus', Menu::get()->sortByDesc('count')->take(7));
+        View::share('hot_menus', Menu::where('type', 'k')->get()->sortByDesc('count')->take(7));
         View::composer('*', function($view) {
             if (Auth::check()) {
                 View::share('my_counts', My_count::where('user_id', Auth::id())->get()->sortByDesc('count')->take(7));
             }
         });
         View::share('money', Money::latest()->first());
-        View::share('posts', Post::where('publish', 'yes')->latest()->take(6)->get());
+        View::share('posts', Post::where('publish', 'yes')->where('confirm', 'yes')->latest()->take(6)->get());
         View::share('ads', Ad::inRandomOrder()->first());
     }
 }

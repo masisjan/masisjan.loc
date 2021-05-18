@@ -7,7 +7,7 @@
                 <div class="b_border margin_15_0 clearfix news_h_sm">
                     <div class="col col_4 col_md col_4_md">
                         <a href="{{ route('transports.show', $transport->id) }}">
-                            <img src="{{ asset('image/app/default-post.jpg') }}" class="input-container news_link p_b_img" alt="">
+                            <img src="{{ $og_image }}" class="input-container news_link p_b_img" alt="">
                         </a>
                     </div>
                     <div class="col col_8 col_md col_8_md">
@@ -21,7 +21,7 @@
                 </div>
                 @endforeach
             @endif
-        {{ $transports->appends (['sort' => 'voices'])->links() }}
+        {{ $transports->appends (['sort' => 'voices'])->onEachSide(0)->links() }}
             <br>
         </div>
         <div class="col col_3 col_md col_3_md">

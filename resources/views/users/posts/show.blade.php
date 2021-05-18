@@ -2,6 +2,25 @@
 @section('title', 'Contact App | Add new contact')
 @section('content')
 
+    <div class="col col_4 col_md col_4_md">
+        @if($post->publish == "yes")
+            <p class="p_post bg_save">Հրապարակված՝ {{ $post->publish }}</p>
+        @else
+            <p class="p_post bg_delete">Հրապարակված՝ {{ $post->publish }}</p>
+        @endif
+    </div>
+    <div class="col col_4 col_md col_4_md">
+        @if($post->confirm == "yes")
+            <p class="p_post bg_save">Հաստատված՝ {{ $post->confirm }}</p>
+        @else
+            <p class="p_post bg_delete">Հաստատված՝ {{ $post->confirm }}</p>
+        @endif
+    </div>
+    <div class="col col_4 col_md col_4_md">
+        <p class="p_post bg_edit">ID. Համար՝ {{ $post->id }}</p>
+    </div>
+    <p class="p_date_count">Նորության հղումը՝ <a href="{{ asset('news/'. $post->id) }}"> {{ asset('news/'. $post->id) }}</a></p>
+    <hr>
     <div>
         <h1 class="p_h1">{{ $post->title }}</h1>
         <div class="p_date_count">
@@ -15,10 +34,8 @@
         @endif
         <div class="icon_footer">
             <a href=""><i class="fab fa-facebook-f"></i></a>
-            <a href=""><i class="fab fa-instagram"></i></a>
             <a href=""><i class="fab fa-telegram-plane"></i></a>
             <a href=""><i class="fab fa-twitter"></i></a>
-            <a href=""><i class="fab fa-youtube"></i></a>
         </div>
         @if($post->word)
             <div class="width_80 p_citat clearfix">
@@ -41,10 +58,8 @@
         <div class="clearfix">
             <div class="col col_6 col_md col_6_md icon_footer">
                 <a href=""><i class="fab fa-facebook-f"></i></a>
-                <a href=""><i class="fab fa-instagram"></i></a>
-                <a href="" class="block_non_md"><i class="fab fa-telegram-plane"></i></a>
+                <a href=""><i class="fab fa-telegram-plane"></i></a>
                 <a href=""><i class="fab fa-twitter"></i></a>
-                <a href=""><i class="fab fa-youtube"></i></a>
             </div>
             <div class="col col_6 col_md col_6_md  p_date_count"><br>
                 <i class="fas fa-user-circle"></i><a href=""> {{ $post->user->name }}</a><br>

@@ -17,7 +17,9 @@
     </div>
     <div class="col col_4 col_md col_4_md">
         <p class="p_post bg_edit">ID. Համար՝ {{ $service->id }}</p>
-    </div><hr>
+    </div>
+    <p class="p_date_count">Հղումը՝ <a href="{{ asset('services/'. $service->id) }}"> {{ asset('services/'. $service->id) }}</a></p>
+    <hr>
     <div>
         <h1 class="p_h1 ">{{ $service->title }}</h1>
         <div class="p_date_count">
@@ -31,10 +33,8 @@
         @endif
         <div class="icon_footer">
             <a href=""><i class="fab fa-facebook-f"></i></a>
-            <a href=""><i class="fab fa-instagram"></i></a>
             <a href=""><i class="fab fa-telegram-plane"></i></a>
             <a href=""><i class="fab fa-twitter"></i></a>
-            <a href=""><i class="fab fa-youtube"></i></a>
         </div><hr>
         <div class="clearfix">
             <div class="col col_6 col_md col_6_md icon_footer"><br>
@@ -62,10 +62,8 @@
         <div class="clearfix">
             <div class="icon_footer">
                 <a href=""><i class="fab fa-facebook-f"></i></a>
-                <a href=""><i class="fab fa-instagram"></i></a>
-                <a href="" class="block_non_md"><i class="fab fa-telegram-plane"></i></a>
+                <a href=""><i class="fab fa-telegram-plane"></i></a>
                 <a href=""><i class="fab fa-twitter"></i></a>
-                <a href=""><i class="fab fa-youtube"></i></a>
             </div>
         </div>
     </div>

@@ -11,7 +11,7 @@
             <div class="center div_b_m clearfix menusBottom">
                 <div class="col col_md col_3 col_6_md" id="allBottom"><p class="bg_n">Թոփ բաժինները</p></div>
                 <div class="col col_md col_3 col_6_md" id="myBottom"><p class="bg_k2">Իմ թոփ բաժինները</p></div>
-                <div class="col col_md col_3 col_6_md" id="bottom"><p class="bg_k2">Կարևօր բաժինները</p></div>
+                <div class="col col_md col_3 col_6_md" id="hotBottom"><p class="bg_k2">Կարևօր բաժինները</p></div>
                 <div class="col col_md col_3 col_6_md" id="abcBottom"><p class="bg_k2">Ըստ այբենարանի</p></div>
             </div>
             <div class="icon_menu menus padding_b_50">
@@ -34,6 +34,13 @@
                     @else
                         <a class="menu__item" href="{{ asset('login') }}"><i class="fas fa-user-circle"></i> ԴԵՌ ԳՐԱՆՑՎԱԾ ՉԵՔ ?</a>
                     @endif
+                </div>
+                <div class="menu" id="hotBottoma">
+                    @foreach($hotMenus as $hotMenu)
+                        <div class="col col_md col_4 col_6_md">
+                            <a class="menu__item" href="{{ asset($hotMenu->href) }}"><i class="{{ $hotMenu->icon }}" ></i> {{ $hotMenu->title }}</a>
+                        </div>
+                    @endforeach
                 </div>
                 <div class="menu" id="abcBottoma">
                     @foreach($abcMenus as $abcMenu)

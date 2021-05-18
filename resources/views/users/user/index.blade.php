@@ -24,8 +24,7 @@
                         <td> {{ $user->name }} </td>
                         <td> {{ $user->type }} </td>
                         <td class="icon_menu">
-                            <a href="{{ route('users.users.show' , [$user->id]) }}" class="btn btn-sm btn-circle btn-outline-info" title="Show"><i class="fa fa-eye"></i></a>
-                            <a href="{{ route('users.users.edit', $user->id) }}" class="btn btn-sm btn-circle btn-outline-secondary" title="Edit"><i class="fa fa-edit"></i></a>
+                            <a href="{{ route('users.profile', $user->id) }}" class="btn btn-sm btn-circle btn-outline-secondary" title="Edit"><i class="fa fa-edit"></i></a>
                             <a href="{{ route('users.profile.destroy', $user->id) }}" class="btn btn-delete btn-sm btn-circle btn-outline-danger" title="Delete"><i class="fa fa-times"></i></a>
                         </td>
                     </tr>
@@ -37,6 +36,6 @@
             @endif
             </tbody>
         </table>
-        {{ $users->appends (['sort' => 'voices'])->links() }}
+        {{ $users->appends (['sort' => 'voices'])->onEachSide(0)->links() }}
     </div>
 @endsection

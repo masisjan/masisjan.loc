@@ -104,6 +104,13 @@
     </div>
     </div>
 
+    @if(auth()->user()->type == 'admin')
+    <div class="input-container">
+        <p>Հաստատել</p>
+        <input type="text" name="confirm" value="{{ old('value', $event->confirm) }}">
+    </div>
+    @endif
+
     <hr>
     <button type="submit" class="btn btn-primary button1 button1_text bg_save">{{ $event->exists ? 'Update' : 'Save' }}</button>
     <a href=" {{ route('users.events.index') }} " class="btn btn-outline-secondary button1 button1_text bg_cancel">Cancel</a>

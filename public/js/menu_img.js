@@ -5,10 +5,13 @@ window.onload = function() {
     alltop_click.onclick = function () {
         mytop.style.display = "none";
         mytop_img.style.display = "none";
+        hottop.style.display = "none";
+        hottop_img.style.display = "none";
         alltop.style.display = "block";
         alltop_img.style.display = "block";
         alltop_click.style.backgroundColor = "#dea115";
         mytop_click.style.backgroundColor = "#163f9d";
+        hottop_click.style.backgroundColor = "#163f9d";
     }
 
     let alltopa = document.querySelectorAll(".alltop a");
@@ -31,7 +34,10 @@ window.onload = function() {
         mytop_img.style.display = "block";
         alltop.style.display = "none";
         alltop_img.style.display = "none";
+        hottop.style.display = "none";
+        hottop_img.style.display = "none";
         alltop_click.style.backgroundColor = "#163f9d";
+        hottop_click.style.backgroundColor = "#163f9d";
         mytop_click.style.backgroundColor = "#dea115";
     }
 
@@ -41,6 +47,33 @@ window.onload = function() {
         mytopa[i].addEventListener("mouseover", function() {
             let id = this.id + 'a';
             let img = document.querySelectorAll(".mytopimg img");
+            for (let j = 0; j < img.length; j++) {
+                img[j].style.display = "none";
+            }
+            document.getElementById(id).style.display = "block";
+        });
+    }
+
+    var hottop_click = document.getElementById("hottop_click");
+
+    hottop_click.onclick = function () {
+        mytop.style.display = "none";
+        mytop_img.style.display = "none";
+        alltop.style.display = "none";
+        alltop_img.style.display = "none";
+        hottop.style.display = "block";
+        hottop_img.style.display = "block";
+        alltop_click.style.backgroundColor = "#163f9d";
+        mytop_click.style.backgroundColor = "#163f9d";
+        hottop_click.style.backgroundColor = "#dea115";
+    }
+
+    let hottopa = document.querySelectorAll(".hottop a");
+
+    for ( let i = 0; i < hottopa.length; i++) {
+        hottopa[i].addEventListener("mouseover", function() {
+            let id = this.id + 'a';
+            let img = document.querySelectorAll(".hottopimg img");
             for (let j = 0; j < img.length; j++) {
                 img[j].style.display = "none";
             }

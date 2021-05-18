@@ -43,7 +43,7 @@
                     @endif
                     </tbody>
                 </table>
-                {{ $places->links() }}
+                {{ $places->onEachSide(0)->links() }}
             </div>
 
 @endsection

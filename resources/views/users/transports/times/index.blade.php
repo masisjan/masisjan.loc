@@ -45,7 +45,7 @@
             @endif
             </tbody>
         </table>
-        {{ $times->links() }}
+        {{ $times->onEachSide(0)->links() }}
     </div>
 
 @endsection

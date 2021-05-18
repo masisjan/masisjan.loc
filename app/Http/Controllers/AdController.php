@@ -12,7 +12,11 @@ class AdController extends Controller
 {
     public function index()
     {
-        $ads = Ad::latest()->paginate(5);
+        if(auth()->user()->type == 'admin'){
+            $ads = Ad::latest()->paginate(5);
+        }else{
+            $ads = Ad::where('user_id', auth()->user()->id)->latest()->paginate(5);
+        }
         return view('users.ads.index', compact('ads'));
     }
 
@@ -61,13 +65,17 @@ class AdController extends Controller
         $ad->update($form);
 
         return redirect()->route('users.ads.index', compact(  'image_name'))
-            ->with('message', "Contact has been updated successfully");
+            ->with('message', "Հաջողությամբ թարմացվել է");
     }
 
     public function edit($id)
     {
         $ad= Ad::findOrFail($id);
+        if(auth()->user()->type == 'admin' || auth()->user()->id == $ad->user_id) {
         return view('users.ads.edit', compact('ad'));
+        }else{
+            return redirect()->route('users.ads.index');
+        }
     }
 
     public function store(Request $request)
@@ -99,23 +107,30 @@ class AdController extends Controller
         $ad = Ad::create($form);
 
         return redirect()->route('users.ads.index', compact(  'image_name'))
-            ->with('message', "Contact has been updated successfully");
+            ->with('message', "Հաջողությամբ ավելացվել է");
     }
 
     public function show($id)
     {
         $ad = Ad::findOrFail($id);
-        return view('users.ads.show', compact('ad'));
+        if(auth()->user()->type == 'admin' || auth()->user()->id == $ad->user_id) {
+            return view('users.ads.show', compact('ad'));
+        }else{
+            return redirect()->route('users.ads.index');
+        }
     }
 
     public function destroy($id)
     {
         $ad = Ad::findOrFail($id);
+        if ($ad->user_id != Auth::id() || auth()->user()->type != 'admin') {
+            return redirect()->back();
+        }
         if ($ad->image) {
             Storage::disk('public')->delete('uploads/image/ads/' . $ad->image);
         }
         $ad = Ad::findOrFail($id)->delete();
-        return redirect()->route('users.ads.index')->with('message', "Contact has been deleted successfully");
+        return redirect()->route('users.ads.index')->with('message', "Հաջողությամբ հեռացվել է");
     }
 
 }

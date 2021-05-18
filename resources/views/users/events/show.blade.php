@@ -2,6 +2,25 @@
 @section('title', 'Contact App | Add new contact')
 @section('content')
 
+    <div class="col col_4 col_md col_4_md">
+        @if($event->publish == "yes")
+            <p class="p_post bg_save">Հրապարակված՝ {{ $event->publish }}</p>
+        @else
+            <p class="p_post bg_delete">Հրապարակված՝ {{ $event->publish }}</p>
+        @endif
+    </div>
+    <div class="col col_4 col_md col_4_md">
+        @if($event->confirm == "yes")
+            <p class="p_post bg_save">Հաստատված՝ {{ $event->confirm }}</p>
+        @else
+            <p class="p_post bg_delete">Հաստատված՝ {{ $event->confirm }}</p>
+        @endif
+    </div>
+    <div class="col col_4 col_md col_4_md">
+        <p class="p_post bg_edit">ID. Համար՝ {{ $event->id }}</p>
+    </div>
+    <p class="p_date_count">Միջոցառման հղումը՝ <a href="{{ asset('events/'. $event->id) }}"> {{ asset('events/'. $event->id) }}</a></p>
+    <hr>
     <div>
         <h1 class="p_h1 ">{{ $event->title }}</h1>
         <div class="p_date_count">

@@ -40,30 +40,39 @@
         <div class="container_sm container_md">
             <div>
                 <a href="/"><img src="{{asset('image/app/logo_mj.png')}}" class="logo_mj mg_l_100" alt=""></a>
-                <i class="fas fa-ellipsis-h icon_more center_i"></i>
+                <i class="fas fa-ellipsis-h icon_more center_i" id="menu_service"></i>
+                <div class="menu_box_service">
+                    <div class="container container_md clearfix icon_menu">
+                        <p class="center margin_15_0 icon_top">ՄԵՐ ՀԱՐԹԱԿՆԵՐԸ</p>
+                        <div class="col col_md col_4 col_6_md">
+                            <a class="menu__item" href="https://www.facebook.com/groups/4231044410263412" target="_blank">
+                                <i class="fas fa-project-diagram"></i> Նախագծեր
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="center">
                 <span class="buje">{{ $money->money_count ?? 0}} դ</span>
             </div>
             <a href=" {{ asset('/login') }} "><i class="fas fa-user-circle icon_user center_it" ></i></a>
-                <input id="menu__toggle" type="checkbox" />
+                <input id="menu__toggle" type="checkbox"/>
                 <label class="menu__btn" for="menu__toggle">
                     <span></span>
                 </label>
-
                 <div class="menu__box">
                     <div class="container container_md">
                     <div class="search">
-                        <form>
-                            <input type="text" placeholder="Փնտրել...">
-                            <button type="submit" class="block_non"></button>
+                        <form action="{{ route('search') }}" method="GET">
+                            <input type="text" name="search" placeholder="Փնտրել...">
+                            <button type="submit"></button>
                         </form>
                     </div><br>
                     <div class="col col_6 icon_menu">
                         <div class="center div_b_m clearfix">
                             <div class="col col_md col_4 col_4_md"><p class="bg_n" id="alltop_click">Թոփ բաժինները</p></div>
                             <div class="col col_md col_4 col_4_md"><p class="bg_k2 " id="mytop_click">Իմ թոփ բաժինները</p></div>
-                            <div class="col col_md col_4 col_4_md"><p class="bg_k2 " id="">Կարևօր բաժինները</p></div>
+                            <div class="col col_md col_4 col_4_md"><p class="bg_k2 " id="hottop_click">Կարևօր բաժինները</p></div>
                         </div>
                         <div class="width_350 alltop" id="alltop">
                             @foreach($menus as $menu)
@@ -78,6 +87,11 @@
                             @else
                                 <a class="menu__item" href="{{ asset('login') }}"><i class="fas fa-user-circle"></i> ԴԵՌ ԳՐԱՆՑՎԱԾ ՉԵՔ ?</a>
                             @endif
+                        </div>
+                        <div class="block_non width_350_0 hottop" id="hottop">
+                            @foreach($hot_menus as $hot_menu)
+                                <a class="menu__item" id="{{'hot_img' . $hot_menu->id }}"  href="{{ asset($hot_menu->href) }}"><i class="{{ $hot_menu->icon }}" ></i> {{ $hot_menu->title }}</a>
+                            @endforeach
                         </div>
                         <div class="width_350_0">
                             <a class="menu__item" href="{{ asset('menu') }}"><i class="fas fa-circle" ></i> ԲՈԼՈՐԸ</a>
@@ -96,6 +110,11 @@
                                 @endforeach
                             @endif
                         </div>
+                        <div class="hottopimg" id="hottop_img">
+                            @foreach($hot_menus as $hot_menu)
+                                <img class="block_non_xl" id="{{'hot_img' . $hot_menu->id . 'a' }}" src="{{asset('storage/uploads/image/user/menu/' . $hot_menu->image)}}" alt="" >
+                            @endforeach
+                        </div>
                     </div>
                 </div>
                 </div>
@@ -111,15 +130,15 @@
     <div class="clearfix footer_fon_13">
         <div class="container container_md ">
             <div class="col col_md col_6 col_6_md icon_footer center_sm">
-                <a href="https://www.facebook.com/masisjan.net"><i class="fab fa-facebook-f"></i></a>
-                <a href=""><i class="fab fa-instagram"></i></a>
-                <a href=""><i class="fab fa-telegram-plane"></i></a>
-                <a href=""><i class="fab fa-twitter"></i></a>
-                <a href=""><i class="fab fa-youtube"></i></a>
+                <a href="https://www.facebook.com/masisjan.net" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/masis_teghekatu/" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://t.me/masisjan" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+                <a href="" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.youtube.com/channel/UCz8BSb2vpphUlIUulUAT4jw/featured" target="_blank"><i class="fab fa-youtube"></i></a>
             </div>
             <div class="col col_md col_6 col_6_md search">
-                <form class="right_xl">
-                    <input type="text" placeholder="Փնտրել...">
+                <form action="{{ route('search') }}" class="right_xl" method="GET">
+                    <input type="text" name="search" placeholder="Փնտրել...">
                     <button type="submit"></button>
                 </form>
             </div>
@@ -145,6 +164,9 @@
             </div>
             <div class="col col_md col_3 col_6_md">
                 <h3 class="border_top_sm">ԿԱՐԵՎՕՐ</h3>
+                @foreach($hot_menus as $hot_menu)
+                    <a href="{{ asset($hot_menu->href) }}"><p class="margin_top_15 color_white">{{ $hot_menu->title }}</p></a>
+                @endforeach
             </div>
             <div class="col col_md col_3 col_6_md">
                 <div class="center">

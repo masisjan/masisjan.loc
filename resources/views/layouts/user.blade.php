@@ -24,6 +24,9 @@
                 <div>
                     <a href="/"><img src="{{asset('image/app/logo_mj.png')}}" class="logo_mj mg_l_100" alt=""></a>
                 </div>
+                <div class="center">
+                    <span class="buje">{{ auth()->user()->name }}</span>
+                </div>
                 <input id="menu__toggle" type="checkbox" />
                 <label class="menu__btn block_non_xl block_non_md" for="menu__toggle">
                     <span></span>

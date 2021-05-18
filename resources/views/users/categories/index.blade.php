@@ -40,7 +40,7 @@
                     @endif
                     </tbody>
                 </table>
-                {{ $categories->links() }}
+                {{ $categories->onEachSide(0)->links() }}
             </div>
 
 @endsection

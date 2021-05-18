@@ -46,7 +46,7 @@
             @endif
             </tbody>
         </table>
-        {{ $transports->links() }}
+        {{ $transports->onEachSide(0)->links() }}
     </div>
 
 @endsection

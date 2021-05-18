@@ -59,6 +59,7 @@ class ServiceController extends Controller
                 $constraint->aspectRatio();
             });
             $img_file->resizeCanvas(null, 350);
+            $img_file->insert('image/app/watermark.png');
             $image_name = rand(111111, 999999) . '.' . date('Y-m-d-H-i-s') . '.jpg';
             $img_file->save('storage/uploads/image/services/'. $image_name, 70);
         }else if ($service->image && $request->image_delete !== 'none'){
@@ -96,6 +97,7 @@ class ServiceController extends Controller
             'sunday'                 =>  $request->sunday,
             'text'                   =>  $request->text,
             'publish'                =>  $request->publish,
+            'confirm'                =>  $request->confirm,
             'qr_cod'                 =>  $image_qr,
             'user_id'                =>  $user_id,
         );
@@ -145,6 +147,7 @@ class ServiceController extends Controller
                 $constraint->aspectRatio();
             });
             $img_file->resizeCanvas(null, 350);
+            $img_file->insert('image/app/watermark.png');
             $image_name = rand(111111, 999999) . '.' . date('Y-m-d-H-i-s') . '.jpg';
             $img_file->save('storage/uploads/image/services/'. $image_name, 70);
         }
@@ -169,6 +172,7 @@ class ServiceController extends Controller
             'sunday'                 =>  $request->sunday,
             'text'                   =>  $request->text,
             'publish'                =>  $request->publish,
+            'confirm'                =>  $request->confirm,
             'user_id'                =>  $user_id,
             'tab_name'               =>  $tab,
         );
@@ -189,15 +193,11 @@ class ServiceController extends Controller
             $fb_url = parse_url($service->fb, PHP_URL_HOST);
         }
 
-        if(auth()->user()->type == 'admin') {
+        if(auth()->user()->type == 'admin' || auth()->user()->id == $service->user_id) {
             return view('users.services.show', compact('service','site_url', 'fb_url', 'tab'));
         }else{
-            if(auth()->user()->id == $service->user_id){
-                return view('users.services.show', compact('service','site_url', 'fb_url', 'tab'));
-            }else{
-                return redirect()->route('users.services.index', $tab);
+            return redirect()->route('users.services.index', $tab);
             }
-        }
     }
 
     public function destroy($id)
@@ -246,6 +246,6 @@ class ServiceController extends Controller
             return view('all.services.show', compact('service', 'site_url', 'fb_url', 'table_id', 'id', 'table_name',
                 'table_rating', 'og_title', 'og_description', 'og_image'));
         }else
-            return redirect()->route('foods');
+            return redirect()->back();
     }
 }

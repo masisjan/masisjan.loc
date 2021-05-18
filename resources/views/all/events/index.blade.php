@@ -25,7 +25,7 @@
                 </div>
                 @endforeach
             @endif
-        {{ $events->appends (['sort' => 'voices'])->links() }}
+        {{ $events->appends (['sort' => 'voices'])->onEachSide(0)->links() }}
             <br>
         </div>
         <div class="col col_3 col_md col_3_md">

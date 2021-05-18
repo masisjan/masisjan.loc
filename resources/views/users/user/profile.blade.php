@@ -6,7 +6,7 @@
     @if(session()->has('message'))
     @include('api._mondal')
     @endif
-    <form onsubmit='return formValidation()' name='val' action="{{ route('users.profile.update', auth()->user()->id)}}" method="POST" enctype="multipart/form-data">
+    <form onsubmit='return formValidation()' name='val' action="{{ route('users.profile.update', $user->id)}}" method="POST" enctype="multipart/form-data">
         @method('PUT')
         @csrf
     <div class="input-container margin_15_0">
@@ -47,6 +47,17 @@
         </div>
         @enderror
     </div>
+    @if(auth()->user()->type == 'admin')
+    <div class="input-container margin_15_0">
+        <p>Կարգավիճակ</p>
+        <input type="text" name="type" value="{{ old('type', $user->type) }}" class="form-control @error('type') is-invalid @enderror">
+        @error('type')
+        <div class="c_red">
+            {{ $message }}
+        </div>
+        @enderror
+    </div>
+    @endif
     <p>Նշել ծննդյան ամսաթիվը</p>
     <div class="input-container margin_15_0">
         <p class="margin_top_15">Օր</p>

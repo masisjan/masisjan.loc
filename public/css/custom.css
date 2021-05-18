@@ -47,6 +47,10 @@ body {
     margin: 15px;
 }
 
+.otziv > iframe {
+    margin: 5px;
+}
+
 .padding_30_0 {
     padding: 30px 0;
 }

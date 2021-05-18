@@ -20,7 +20,7 @@ function formValidation() {
     let regex2 = /^[0-9․,/ \u0561-\u0587\u0531-\u0556-]+$/g;
     let regex_phone = /^[+0-9]+$/;
     var regex_jam = /^[0-9-: ]+$/;
-    var regex_text = /^[\u0561-\u0587\u0531-\u0556- 0-9․,<>։;՛"՝՜*+%$#@!()?]+$/;
+    var regex_text = /^[\u0561-\u0587\u0531-\u0556- /0-9․,և<>։;՛"՝՜*+%$#@!()?\n]+$/;
     let regex_mail = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
     let regex_site = /[-a-zA-Z0-9@:%_\+.~#?&\/=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&\/=]*)?/gi;
     var regex_fb = /(?:http:\/\/)?(?:www\.)?facebook\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-]*)/;

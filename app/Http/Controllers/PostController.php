@@ -14,7 +14,11 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::latest()->paginate(5);
+        if(auth()->user()->type == 'admin'){
+            $posts = Post::latest()->paginate(5);
+        }else{
+            $posts = Post::where('user_id', auth()->user()->id)->latest()->paginate(5);
+        }
         return view('users.posts.index', compact('posts'));
     }
 
@@ -51,6 +55,7 @@ class PostController extends Controller
                 $constraint->aspectRatio();
             });
             $img_file->resizeCanvas(null, 350);
+            $img_file->insert('image/app/watermark.png');
             $image_name = date('Y-m-d-H-i-s') . '.jpg';
             $img_file->save('storage/uploads/image/posts/'. $image_name, 60);
         }else if ($post->image && $request->image_delete !== 'none'){
@@ -76,6 +81,7 @@ class PostController extends Controller
                     $constraint->aspectRatio();
                 });
                 $imgs_file->resizeCanvas(null, 350);
+                $imgs_file->insert('image/app/watermark.png');
                 $imgs_name = rand(111111, 999999) . '.jpg';
                 $imgs_file->save('storage/uploads/image/posts/'. $imgs_name, 60);
                 array_push($img_arr, "$imgs_name");
@@ -107,6 +113,7 @@ class PostController extends Controller
             'video'                  =>  $request->video,
             'word'                   =>  $request->word,
             'publish'                =>  $request->publish,
+            'confirm'                =>  $request->confirm,
             'user_id'                =>  $user_id,
         );
 
@@ -119,7 +126,7 @@ class PostController extends Controller
         }
 
         return redirect()->route('users.posts.index', compact(  'image_name', 'img_arr_string','short_text'))
-            ->with('message', "Contact has been updated successfully");
+            ->with('message', "Հաջողությամբ թարմացվել է");
     }
 
     public function edit($id)
@@ -128,8 +135,11 @@ class PostController extends Controller
         $images = explode(',', $post->images);
         $allcategories = Category::orderBy('name')->get();
         $catPosts = $post->categories;
-
-        return view('users.posts.edit', compact('post', 'images', 'allcategories', 'catPosts'));
+        if(auth()->user()->type == 'admin' || auth()->user()->id == $post->user_id) {
+            return view('users.posts.edit', compact('post', 'images', 'allcategories', 'catPosts'));
+        }else{
+            return redirect()->route('users.posts.index');
+        }
     }
 
     public function store(Request $request)
@@ -137,7 +147,7 @@ class PostController extends Controller
         $request->validate([
             'image'       => 'mimes:jpeg,png,jpg|max:2048',
             'title'       => 'required|min:10|max:120',
-            'text'        => 'nullable|min:99',
+            'text'        => 'nullable|min:30',
             'word'        => 'nullable|min:10|max:150',
             'images'      => 'array|max:2',
             'images.*'    => 'mimes:jpeg,png,jpg|max:2048',
@@ -155,6 +165,7 @@ class PostController extends Controller
             });
             $img_file->resizeCanvas(null, 350);
             $image_name = date('Y-m-d-H-i-s') . '.jpg';
+            $img_file->insert('image/app/watermark.png');
             $img_file->save('storage/uploads/image/posts/'. $image_name, 60);
         }
 
@@ -169,6 +180,7 @@ class PostController extends Controller
                     $constraint->aspectRatio();
                 });
                 $imgs_file->resizeCanvas(null, 350);
+                $imgs_file->insert('image/app/watermark.png');
                 $imgs_name = rand(111111, 999999) . '.jpg';
                 $imgs_file->save('storage/uploads/image/posts/'. $imgs_name, 60);
                 array_push($img_arr, "$imgs_name");
@@ -188,6 +200,7 @@ class PostController extends Controller
             'text_video'             =>  $request->text_video,
             'word'                   =>  $request->word,
             'publish'                =>  $request->publish,
+            'confirm'                =>  $request->confirm,
             'user_id'                =>  $user_id,
         );
 
@@ -196,22 +209,27 @@ class PostController extends Controller
         $post->categories()->attach($cat_id);
 
         return redirect()->route('users.posts.index', compact(  'image_name', 'img_arr_string'))
-            ->with('message', "Contact has been updated successfully");
+            ->with('message', "Հաջողությամբ ավելացվել է");
     }
 
     public function show($id)
     {
         $post = Post::findOrFail($id);
         $images = explode(',', $post->images);
-        $url = $post->post_url;
-        $post_url = parse_url($url, PHP_URL_HOST);
-
-        return view('users.posts.show', compact('post','images', 'post_url'));
+        $post_url = parse_url($post->post_url, PHP_URL_HOST);
+        if(auth()->user()->type == 'admin' || auth()->user()->id == $post->user_id) {
+            return view('users.posts.show', compact('post','images', 'post_url'));
+        }else{
+            return redirect()->route('users.posts.index');
+        }
     }
 
     public function destroy($id)
     {
         $post = Post::findOrFail($id);
+        if ($post->user_id != Auth::id() || auth()->user()->type != 'admin') {
+            return redirect()->back();
+        }
         if ($post->image) {
             Storage::disk('public')->delete('uploads/image/posts/' . $post->image);
         }
@@ -222,12 +240,12 @@ class PostController extends Controller
             }
         }
         $post = Post::findOrFail($id)->delete();
-        return redirect()->route('users.posts.index')->with('message', "Contact has been deleted successfully");
+        return redirect()->route('users.posts.index')->with('message', "Հաջողությամբ հեռացվել է");
     }
 //.........................................
     public function news()
     {
-        $posts = Post::where('publish', 'yes')->latest()->paginate(10);
+        $posts = Post::where('publish', 'yes')->where('confirm', 'yes')->latest()->paginate(10);
         $og_title = 'Մասիսջան, ծանոթացիր Մասիս քաղաքի բոլոր նորություններին';
         $og_description = 'Այստեղ կարող եք տեղեկատվություն գտնել Մասիս քաղաքի վերաբերյալ բոլոր նորությունների մասին․․․';
         return view('all.news.index', compact('posts', 'og_description', 'og_title'));
@@ -236,12 +254,11 @@ class PostController extends Controller
     public function news_show($id)
     {
         $post = Post::findOrFail($id);
-        if($post->publish == 'yes') {
+        if($post->publish == 'yes' && $post->confirm == 'yes') {
             $post->count = $post->count + 1;
             $post->save();
             $images = explode(',', $post->images);
-            $url = $post->post_url;
-            $post_url = parse_url($url, PHP_URL_HOST);
+            $post_url = parse_url($post->post_url, PHP_URL_HOST);
             $og_title = $post->title;
             $og_description = $post->short_text;
             if($post->image){

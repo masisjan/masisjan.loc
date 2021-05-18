@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
+use App\Models\Page;
+use App\Models\Post;
 use App\Models\Rating;
+use App\Models\Section;
+use App\Models\Service;
 use App\Models\Stop;
 use App\Models\Transport;
 use Carbon\Carbon;
@@ -23,5 +28,17 @@ class ApiController extends Controller
             $tex = $tex . $text;
         }
         echo $tex;
+    }
+
+    public function search(Request $request)
+    {
+        $service = Service::where('publish', 'yes')->where('confirm', 'yes')->where('title', 'LIKE', '%' . $request->search .'%')->orderBy('id', 'DESC')->limit(10)->get();
+        $page = Page::where('publish', 'yes')->where('title', 'LIKE', '%' . $request->search .'%')->orderBy('id', 'DESC')->limit(10)->get();
+        $section = Section::where('publish', 'yes')->where('title', 'LIKE', '%' . $request->search .'%')->orderBy('id', 'DESC')->limit(10)->get();
+//        $transport = Transport::where('publish', 'yes')->where('title', 'LIKE', '%' . $request->search .'%')->orderBy('id', 'DESC')->get();
+        $event = Event::where('publish', 'yes')->where('confirm', 'yes')->where('title', 'LIKE', '%' . $request->search .'%')->orderBy('id', 'DESC')->limit(10)->get();
+        $post = Post::where('publish', 'yes')->where('confirm', 'yes')->where('title', 'LIKE', '%' . $request->search .'%')->orderBy('id', 'DESC')->limit(10)->get();
+        $orders = $service->union($page)->union($section)->union($event)->union($post);
+        return view('all.search', compact('orders'));
     }
 }
